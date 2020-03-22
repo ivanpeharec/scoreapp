@@ -1,0 +1,27 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item">Ice hockey matches</li>
+    </ol>
+</nav>
+<table class="table table-borderless" *ngIf="loading">
+    <thead>
+        <tr>
+            <th scope="col" class="alignCenter">Date</th>
+            <th scope="col" class="alignCenter">FT</th>
+            <th scope="col" colspan="3" *ngIf="userService.isAdmin()">Match</th>
+            <th scope="col" *ngIf="!userService.isAdmin()">Match</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let match of matches">
+            <td width="155px" class="alignCenter">{{match.Date | date:'dd.MM.yyyy. HH:mm'}}</td>
+            <td width="85px" class="alignCenter">{{match.HomeTeamScore}} - {{match.AwayTeamScore}}</td>
+            <td *ngIf="teams">{{getTeamName(match.HomeTeamID)}} - {{getTeamName(match.AwayTeamID)}}</td>
+            <td width="20px" *ngIf="userService.isAdmin()"><a [routerLink]="['/edit-match/', match.ID]"><i
+                        class="fas fa-pen fa-lg text-warning"></i></a></td>
+            <td width="20px" (click)="onDelete(match.ID)" *ngIf="userService.isAdmin()"><a [routerLink]=""><i
+                        class="far fa-trash-alt fa-lg text-danger"></i></a></td>
+        </tr>
+    </tbody>
+</table>

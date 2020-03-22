@@ -1,0 +1,27 @@
+.mat-column-Name
+{
+    justify-content: flex-start !important;
+}
+
+.mat-column-ChildrenEntityList
+{
+    flex: 0 0 60px;
+    justify-content: flex-end !important;
+}
+
+.mat-column-Edit
+{
+    flex: 0 0 40px;
+    justify-content: flex-end !important;
+}
+
+.mat-column-Delete
+{
+    flex: 0 0 60px;
+    justify-content: flex-end !important;
+}
+
+.iconFontSize
+{
+    font-size: 18px !important;
+}

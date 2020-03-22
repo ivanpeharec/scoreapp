@@ -1,0 +1,101 @@
+.dateSwitchButton
+{
+    background-color: #001f3f;
+    border: 1px solid #001f3f;
+    height: 25px;
+}
+
+.dateSwitchButton:focus
+{
+    outline: none;
+}
+
+.dateSwitchButton:hover, .dateSwitchButton:active
+{
+    background-color: #001a33;
+    border: 1px solid #001a33;
+}
+
+.dateSwitchButton i 
+{
+    font-size: 18px;
+}
+
+.currentDateDiv
+{
+    min-width: 80px; 
+    display: inline-block; 
+    text-align: center;
+    background-color: #001f3f;
+    color: white;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+}
+
+.dateContainer
+{
+    text-align: right;
+}
+
+.dateContainer *
+{
+    vertical-align: bottom;
+}
+
+table 
+{
+    width: 100%;
+    display: initial;
+}
+
+.borderBottom 
+{
+    border-bottom: 1px solid black;
+}
+
+.mat-column-Time 
+{
+    flex: 0 0 15%;
+}
+
+.mat-column-HomeTeam 
+{
+    flex: 0 0 27%;
+    justify-content: flex-end !important;
+}
+
+.mat-column-AwayTeam 
+{
+    flex: 0 0 27%;
+    justify-content: flex-start !important;
+}
+
+.mat-column-HomeTeamScore 
+{
+    flex: 0 0 7%;
+    justify-content: flex-end !important;
+}
+
+.mat-column-DashCell 
+{
+    flex: 0 0 2%;
+    justify-content: center;
+}
+
+.mat-column-AwayTeamScore 
+{
+    flex: 0 0 7%;
+    justify-content: flex-start !important;
+}
+
+.mat-column-HalfTimeScore 
+{
+    flex: 0 0 15%;
+    justify-content: flex-end !important;
+}
+
+.halfTimeScore 
+{
+    color: #91908d;
+}

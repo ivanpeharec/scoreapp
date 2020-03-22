@@ -1,0 +1,21 @@
+.mat-column-Name
+{
+    justify-content: flex-start !important;
+}
+
+.mat-column-Edit
+{
+    flex: 0 0 60px;
+    justify-content: flex-end !important;
+}
+
+.mat-column-Delete
+{
+    flex: 0 0 60px;
+    justify-content: flex-end !important;
+}
+
+.iconFontSize
+{
+    font-size: 19px !important;
+}

@@ -1,0 +1,25 @@
+.hoverHand:hover 
+{
+    cursor: pointer; 
+}
+
+.custom-file 
+{
+    margin-top: 2px;
+    margin-bottom: 6px;
+}
+
+.imageUploadContainer 
+{
+    margin: 0px 16px;
+}
+
+.imageInput 
+{
+    margin: 8px 0;
+}
+
+.checkboxFormContainer
+{
+    margin-top: 6px;
+}

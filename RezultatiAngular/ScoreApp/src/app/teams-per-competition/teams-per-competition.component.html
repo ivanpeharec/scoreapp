@@ -1,0 +1,85 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="/teams">Teams</a>
+        </li>
+        <li class="breadcrumb-item">{{ competition.Name }}</li>
+    </ol>
+</nav>
+
+<div class="entityNameTitle">
+    {{ competition.Name }}
+</div>
+
+<div class="searchDiv marginBottom">
+    <mat-form-field class="searchFormField" floatLabel="never">
+        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <mat-table [dataSource]="listData" class="listTable" matSort>
+            <ng-container matColumnDef="Name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <strong>TEAM</strong>
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let team">
+                    <span class="inlineBlockAlignMiddle" width="30px">
+                        <img [src]="imageUrl(team.ID)" style="max-width: 30px;" *ngIf="imageUrl(team.ID) != null" />
+                    </span>
+                    &nbsp;&nbsp;{{ team.Name }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Edit">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let team">
+                    <a [routerLink]="['/edit-team/', team.ID]" title="Edit">
+                        <i class="fas fa-pen fa-lg text-warning iconFontSize"></i>
+                    </a>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Delete">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let team">
+                    <a [routerLink]="" title="Delete" (click)="onDelete(team.ID)">
+                        <i class="far fa-trash-alt fa-lg text-danger iconFontSize"></i>
+                    </a>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="loading">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                    Loading data...
+                </mat-footer-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                    No teams.
+                </mat-footer-cell>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': listData != null}"></mat-footer-row>
+
+            <mat-footer-row *matFooterRowDef="['noData']"
+                [ngClass]="{'hide': !(listData != null && listData.data.length == 0)}"></mat-footer-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="20" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

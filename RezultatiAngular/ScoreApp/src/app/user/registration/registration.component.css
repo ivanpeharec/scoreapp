@@ -1,0 +1,21 @@
+.isInvalid{
+    border: 1px solid red !important;
+}
+.isValid{
+    border: 1px solid green !important;
+}
+
+.form-control.no-validate:valid {
+    border-color: #ced4da;
+    padding-right: .75rem;
+    background: none;
+}
+
+input {
+    background: #fff !important;
+}
+
+.buttonContainer
+{
+    margin-bottom: 20px !important;
+}

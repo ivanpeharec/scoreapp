@@ -1,0 +1,58 @@
+<form [formGroup]="service.formModel" autocomplete="off" (submit)="onSubmit()">
+    <div class="form-group required">
+        <label>Username</label>
+        <input class="form-control" formControlName="UserName" required>
+        <div *ngIf="service.formModel.get('UserName').touched && service.formModel.get('UserName').errors?.required"
+            class="alert alert-danger">
+            Username is required.
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input class="form-control no-validate" formControlName="Email"
+            [ngClass]="{ 'isInvalid' : service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email, 'isValid' : service.formModel.get('Email').touched && !service.formModel.get('Email').errors?.email && service.formModel.get('Email').value}">
+        <div *ngIf="service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email"
+            class="alert alert-danger">
+            Enter a valid email address.
+        </div>
+    </div>
+    <div formGroupName="Passwords">
+        <div class="form-group required">
+            <label>Password</label>
+            <input class="form-control" formControlName="Password" type="password" required>
+            <div *ngIf="service.formModel.get('Passwords.Password').touched && 
+                        service.formModel.get('Passwords.Password').errors?.required"
+                class="alert alert-danger">
+                Password is required.
+            </div>
+            <div *ngIf="service.formModel.get('Passwords.Password').touched && 
+                        service.formModel.get('Passwords.Password').errors?.minlength"
+                class="alert alert-danger">
+                Minimum 4 characters required.
+            </div>
+        </div>
+        <div class="form-group required">
+            <label>Confirm password</label>
+            <input class="form-control no-validate" formControlName="ConfirmPassword" type="password"
+                [ngClass]="{ 'isInvalid' : service.formModel.get('Passwords.ConfirmPassword').touched && (service.formModel.get('Passwords.ConfirmPassword').errors || service.formModel.get('Passwords.ConfirmPassword').value != service.formModel.get('Passwords.Password').value), 'isValid' : service.formModel.get('Passwords.ConfirmPassword').touched && !service.formModel.get('Passwords.ConfirmPassword').errors && service.formModel.get('Passwords.ConfirmPassword').value == service.formModel.get('Passwords.Password').value}">
+            <div *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.required"
+                class="alert alert-danger">
+                Password confirmation is required.
+            </div>
+            <div *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.minlength && !service.formModel.get('Passwords.Password').errors?.required"
+                class="alert alert-danger">
+                Minimum 4 characters required.
+            </div>
+            <div *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && 
+                    service.formModel.get('Passwords.ConfirmPassword').value != service.formModel.get('Passwords.Password').value &&
+                    !service.formModel.get('Passwords.ConfirmPassword').errors?.required &&
+                    !service.formModel.get('Passwords.ConfirmPassword').errors?.minlength" class="alert alert-danger">
+                Password confirmation doesn't match password.
+            </div>
+        </div>
+    </div>
+    <div class="form-group buttonContainer">
+        <button type="submit" class="btn btn-success"
+            [disabled]="!service.formModel.valid || service.formModel.get('Passwords.ConfirmPassword').value != service.formModel.get('Passwords.Password').value">Sign Up</button>
+    </div>
+</form>

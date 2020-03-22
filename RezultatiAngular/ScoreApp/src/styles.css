@@ -1,0 +1,429 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+* {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+}
+
+body {
+    background-color: #0d0e0f;
+}
+
+.mainContainer {
+    margin-top: 6px;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.alignLeft {
+    text-align: left;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.borderTop {
+    border-top: 1px solid black;
+}
+
+.inlineBlockAlignMiddle {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+.verticalAlignMiddle {
+    vertical-align: middle;
+}
+
+.entityList, .entityList thead {
+    background-color: #001f3f; 
+    color: #fff;
+}
+
+.breadcrumb-item > a:hover {
+    color: #ff0000;
+    text-decoration: none;
+}
+
+.breadcrumb {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    background-color: #001f3f; 
+    color: #fff;
+    font-weight: bold;
+    border-radius: 0 !important;
+    margin-bottom: 6px;
+}
+
+.breadcrumb-item {
+    color: #fff;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+input.ng-touched.ng-invalid {
+    border-color: red;
+}
+
+input.ng-valid {
+    border-color: green;
+}
+
+#toastr-container > div {
+    opacity: 1;
+}
+
+.defaultBackgroundColor {
+    background-color: #001f3f !important;
+}
+
+.isInvalid {
+    border: 1px solid red;
+}
+.isValid {
+    border: 1px solid green;
+}
+
+input.form-control,input.form-control:focus {
+    border: 1px solid #001f3f;
+}
+
+input.form-control:focus {
+    box-shadow: none;
+}
+
+div.form-group label:not(.text-danger) {
+    color: #fff;
+    font-weight: 700;
+}
+
+div.form-group.required>label:first-child:after {
+    content:'*';
+    color: red;
+    padding-left: 5px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.wrapped-div {
+    background: #001f3f;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: 0px;
+}
+
+  /* Tabs */
+.tab-header {
+    text-align: center;
+}
+
+.tab-header h2.active {
+    color: #fff;
+    border-bottom: 4px solid #fff;
+}
+
+.tab-header h2 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    display: inline-block;
+    padding: 30px 40px 10px 40px;
+    cursor: pointer;
+    color: #545d6a;
+    border-bottom: 2px solid #545d6a;
+}
+
+.tab-header h2:focus {
+    outline: none;
+}
+
+form {
+    margin: 0px 16px;
+}
+
+div.form-group input.invalid {
+    border: 1px solid #dc3545; 
+}
+
+div.form-group label:first-child {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+ /* mat-confirm-dialog (customized dialog) */
+.confirmDialogContainer .mat-dialog-container {
+    border-radius: .25em .25em .4em .4em;
+    padding: 0px;
+}
+.confirmDialogContainer .content-container {
+    margin: 5px 5px 15px 5px;
+    color: #8f9cb5;
+    display: flex;
+}
+.confirmDialogContainer #close-icon {
+    margin-left: auto;
+    order: 2;
+    font-weight: bolder;
+}
+.confirmDialogContainer #close-icon:hover {
+    cursor: pointer;
+}
+
+.confirmDialogContainer #no-button {
+    height: 50px;
+    width: 50%;
+    background-color: #fc7169;
+    color:white;
+    border-radius: 0px;
+}
+
+.confirmDialogContainer #yes-button {
+    height: 50px;
+    width: 50%;
+    background-color: #b6bece;
+    color:white;
+    border-radius: 0px;
+}
+
+.confirmDialogContainer span.content-span {
+    padding:  35px 16px;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* Form styles. */
+.formControlsContainer {
+    padding: 15px !important;
+    background-color: #001f3f !important;
+}
+
+.datePickerContainer {
+    width: 49% !important;
+    float: left !important;
+}
+
+.timePickerContainer {
+    width: 49% !important;
+    float: right !important;
+}
+
+mat-form-field {
+    width: 100% !important;
+    margin-top: 6px !important;
+}
+
+mat-form-field input {
+    color: white !important;
+}
+
+mat-error {
+    font-size: 11px !important;
+}
+
+mat-label {
+    color: #7e8694 !important;
+    font-weight: bold;
+}
+
+.mat-select-value-text {
+    color: white !important;
+}
+
+mat-form-field.mat-form-field-should-float mat-label {
+    font-size: 16px !important;
+}
+
+mat-datepicker-toggle {
+    color: #6a6c6e !important;
+}
+
+.mat-select-arrow {
+    color: #6a6c6e !important;
+}
+
+.mat-datepicker-toggle-default-icon {
+    height: 30px !important;
+}
+
+.submitButton {
+    background-color: #09b83e !important;
+    border: 1px solid #09b83e !important;
+    margin-top: 15px !important;
+}
+
+.submitButton:disabled {
+    background-color: #001f3f !important;
+    border: 1px solid #6a6c6e !important;
+    color: #6a6c6e !important;
+}
+
+.checkboxFormContainer {
+    color: white !important;
+}
+
+.dataRow td {
+    border-bottom: 1px solid #0d0e0f;
+    border-top: 1px solid #0d0e0f;
+}
+
+.hide {
+    display: none;
+}
+
+mat-paginator {
+    background-color: #001f3f !important;
+}
+
+mat-paginator * {
+    color: white !important;
+}
+
+mat-paginator .mat-select-arrow {
+    color: white !important;
+}
+
+.mat-paginator-page-size-select {
+    width: 120px !important;
+}
+
+mat-footer-row mat-footer-cell {
+    justify-content: center;
+    font-style: italic;
+}
+
+.mat-paginator-page-size-label {
+    color: white !important;
+    width: 130px !important;
+}
+
+.mat-sort-header-arrow {
+    color: red !important;
+}
+
+.listTable {
+    background-color: #001f3f; 
+}
+
+.listTable * {
+    color: white;
+    font-size: 12px;
+}
+
+.listTable .mat-sort-header-container {
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.listTable .mat-header-row 
+{
+    height: 25px;
+}
+
+.listTable mat-header-cell
+{
+    text-decoration: underline;
+    /* This increases the gab between the text and underline. */
+    text-underline-position: under;
+}
+
+.searchFormField {
+    background-color: #001f3f;
+    padding: 5px 24px;
+}
+
+.searchFormField input {
+    color: white;
+}
+
+.searchFormField div.mat-form-field-suffix button {
+    color: white;
+}
+
+.mat-form-field-label {
+    color: #7e8694 !important;
+}
+
+.searchDiv {
+    background-color: #001f3f;
+}
+
+.searchDiv .mat-icon 
+{
+    font-size: 19px !important;
+}
+
+.searchDiv .mat-form-field-wrapper 
+{
+    padding-bottom: 0px;
+}
+
+.searchDiv .mat-form-field-underline 
+{
+    position: unset;
+}
+
+.formControlsContainer input.mat-input-element 
+{
+    margin-top: 3px;
+    background-color: #001f3f !important;
+}
+
+mat-select 
+{
+    margin-top: 3px;
+}
+
+mat-cell
+{
+    line-height: 1 !important;
+}
+
+.mainTitleContainer
+{
+    margin: 0px 16px;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.entityNameTitle
+{
+    padding: 10px 24px 10px 24px;
+    color: white;
+    font-size: 16px;
+    background-color: #001f3f;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+/* Sets color and background color for auto filling data on input elements. */
+input.mat-input-element:-webkit-autofill,
+input.mat-input-element:-webkit-autofill:hover, 
+input.mat-input-element:-webkit-autofill:focus, 
+input.mat-input-element:-webkit-autofill:active  {
+    box-shadow: 0 0 0 30px #001f3f inset !important;
+    -webkit-box-shadow: 0 0 0 30px #001f3f inset !important;
+    -webkit-text-fill-color: white;
+}
+
+@media screen and (max-width: 991px)
+{
+    .mainContainer
+    {
+        margin-top: 60px;
+    }
+}

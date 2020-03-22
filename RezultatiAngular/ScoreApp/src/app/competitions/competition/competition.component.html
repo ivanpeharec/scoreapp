@@ -1,0 +1,43 @@
+<nav aria-label="breadcrumb" *ngIf="loaded">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/competitions">Competitions</a></li>
+        <li *ngIf="competition.ID != 0" class="breadcrumb-item">Edit competition</li>
+        <li *ngIf="competition.ID === 0" class="breadcrumb-item">New competition</li>
+    </ol>
+</nav>
+
+<!-- Competition input / edit form. -->
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="formControlsContainer">
+            <!-- Form. -->
+            <form #form="ngForm" [formGroup]="service.form" (submit)="onSubmit(form)">
+                <!-- Competition ID. -->
+                <input type="hidden" formControlName="ID">
+
+                <!-- Competition name. -->
+                <mat-form-field>
+                    <mat-label>Competition name</mat-label>
+                    <input matInput formControlName="Name">
+                    <mat-error>Competition name is required!</mat-error>
+                </mat-form-field>
+
+                <!-- Sport. -->
+                <mat-form-field>
+                    <mat-label>Sport</mat-label>
+                    <mat-select formControlName="SportID">
+                        <mat-option *ngFor="let sport of sports" [value]="sport.ID">
+                            {{sport.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>Sport has to be selected!</mat-error>
+                </mat-form-field>
+
+                <!-- Form submit button. -->
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid"
+                    class="submitButton">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

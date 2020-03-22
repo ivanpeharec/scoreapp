@@ -1,0 +1,36 @@
+<nav aria-label="breadcrumb" *ngIf="loaded">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="/sports">Sports</a>
+        </li>
+        <li *ngIf="sport.ID != 0" class="breadcrumb-item">Edit sport</li>
+        <li *ngIf="sport.ID === 0" class="breadcrumb-item">New sport</li>
+    </ol>
+</nav>
+
+<!-- Sport input / edit form. -->
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="formControlsContainer">
+            <!-- Form. -->
+            <form #form="ngForm" [formGroup]="service.form" (submit)="onSubmit(form)">
+                <!-- Sport ID. -->
+                <input type="hidden" formControlName="ID">
+
+                <!-- Sport name. -->
+                <mat-form-field>
+                    <mat-label>Sport name</mat-label>
+                    <input matInput formControlName="Name">
+                    <mat-error>Sport name is required!</mat-error>
+                </mat-form-field>
+
+                <!-- Form submit button. -->
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid"
+                    class="submitButton">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

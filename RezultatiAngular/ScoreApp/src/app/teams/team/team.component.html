@@ -1,0 +1,115 @@
+<nav aria-label="breadcrumb" *ngIf="loadComponent">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/teams">Teams</a></li>
+        <li *ngIf="team.ID != 0" class="breadcrumb-item">Edit team</li>
+        <li *ngIf="team.ID === 0" class="breadcrumb-item">New team</li>
+    </ol>
+</nav>
+
+<!-- Team input / edit form. -->
+<div class="row" *ngIf="loadComponent">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="formControlsContainer">
+
+            <!-- Team logo. -->
+            <img [src]="image" class="mx-auto d-block" width="200px" *ngIf="imageLoaded">
+
+            <!-- Title. -->
+            <div class="mainTitleContainer">TEAM DETAILS</div>
+
+            <!-- Form. -->
+            <form #form="ngForm" [formGroup]="service.form" (submit)="onSubmit(form)">
+                <!-- Team ID. -->
+                <input type="hidden" formControlName="ID">
+
+                <!-- Team name. -->
+                <mat-form-field>
+                    <mat-label>Team name</mat-label>
+
+                    <input matInput formControlName="Name">
+
+                    <mat-error>Team name is required!</mat-error>
+                </mat-form-field>
+
+                <!-- Sport. -->
+                <mat-form-field>
+                    <mat-label>Sport</mat-label>
+
+                    <mat-select formControlName="SportID">
+                        <mat-option *ngFor="let sport of sports" [value]="sport.ID">
+                            {{sport.Name}}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error>Sport has to be selected!</mat-error>
+                </mat-form-field>
+
+                <!-- Form submit button. -->
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid"
+                    class="submitButton">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadComponent && updateMode">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="formControlsContainer borderTop">
+            <!-- Title. -->
+            <div class="mainTitleContainer">TEAM LOGO</div>
+
+            <div class="imageUploadContainer">
+                <div class="custom-file">
+                    <label class="bold control-label">Image</label>
+
+                    <input type="file" #file id="validatedCustomFile" [(ngModel)]="uploadedFile" name="uploadedFile" accept='image/*'
+                        (change)="fileInputChange(file.files)" class="hide">
+
+                    <label class="custom-file-label hoverHand imageInput" #labelImport for="validatedCustomFile"
+                        [ngClass]="{ 'isValid' : fileUploaded }">Choose file...</label>
+                </div>
+
+                <button mat-flat-button color="primary" type="button" (click)="uploadFile(file.files)"
+                    [disabled]="!fileUploaded" class="submitButton">Save image</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadComponent && updateMode">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="formControlsContainer borderTop">
+            <!-- Title. -->
+            <div class="mainTitleContainer">ADD TO COMPETITION</div>
+
+            <form #competitionTeamForm="ngForm" [formGroup]="service.competitionTeamForm"
+                (submit)="onSubmitCompetitionTeam(competitionTeamForm)">
+                <!-- Team ID. -->
+                <input type="hidden" formControlName="TeamID">
+
+                <!-- Competititon that the team will be added to. -->
+                <mat-form-field>
+                    <mat-label>Competition</mat-label>
+
+                    <mat-select formControlName="CompetitionID">
+                        <mat-option *ngFor="let competition of possibleCompetitions" [value]="competition.ID">
+                            {{competition.Name}}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error>Competition has to be selected!</mat-error>
+                </mat-form-field>
+
+                <!-- Active / not active. -->
+                <div class="checkboxFormContainer">
+                    <mat-checkbox formControlName="Active">Active</mat-checkbox>
+                </div>
+
+                <!-- Form submit button. -->
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.competitionTeamForm.valid"
+                    class="submitButton">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

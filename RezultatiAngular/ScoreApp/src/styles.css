@@ -335,8 +335,9 @@ mat-footer-row mat-footer-cell {
 .listTable mat-header-cell
 {
     text-decoration: underline;
-    /* This increases the gab between the text and underline. */
+    /* Increases the gap between the text and underline. */
     text-underline-position: under;
+    padding-bottom: 3px;
 }
 
 .searchFormField {
@@ -408,6 +409,17 @@ mat-cell
     text-transform: uppercase;
     font-weight: bold;
     border-bottom: 1px solid black;
+}
+
+/* Changes material slide toggle color. */
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar 
+{
+    background-color: #00a62e;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb 
+{
+    background-color: #04de40;
 }
 
 /* Sets color and background color for auto filling data on input elements. */

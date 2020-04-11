@@ -29,9 +29,14 @@ namespace RezultatiAngular.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// POST: api/ApplicationUser/Register.
+        /// Registers a user and stores him into the database.
+        /// </summary>
+        /// <param name="model">ApplicationUserModel object.</param>
+        /// <returns>Status code.</returns>
         [HttpPost]
         [Route("Register")]
-        //POST: /api/ApplicationUser/Register
         public async Task<Object> PostApplicationUser(ApplicationUserModel model)
         {
             model.Role = "User";
@@ -53,9 +58,14 @@ namespace RezultatiAngular.Controllers
             }
         }
 
+        /// <summary>
+        /// POST: api/ApplicationUser/Login.
+        /// Generates a JWT security token for a particular user.
+        /// </summary>
+        /// <param name="model">LoginModel object.</param>
+        /// <returns>JWT security token.</returns>
         [HttpPost]
         [Route("Login")]
-        //POST: /api/ApplicationUser/Login
         public async Task<IActionResult> Login(LoginModel model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
@@ -86,7 +96,5 @@ namespace RezultatiAngular.Controllers
                 return BadRequest(new { message = "Username or password is incorrect. " });
             }
         }
-
-
     }
 }

@@ -23,3 +23,14 @@
 {
     margin-top: 6px;
 }
+
+.materialSlider
+{
+    margin-top: 6px;
+    color: white;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb
+{
+    background-color: green !important;
+}

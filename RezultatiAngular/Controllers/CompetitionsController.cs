@@ -19,14 +19,23 @@ namespace RezultatiAngular.Controllers
             _context = context;
         }
 
-        // GET: api/Competitions
+        /// <summary>
+        /// GET: api/Competitions.
+        /// Retrieves all competitions from the database.
+        /// </summary>
+        /// <returns>All competitions.</returns>
         [HttpGet]
         public IEnumerable<Competition> GetCompetitions()
         {
             return _context.Competitions;
         }
 
-        // GET: api/Competitions/5
+        /// <summary>
+        /// GET: api/Competitions/5.
+        /// Retrieves the specific competition.
+        /// </summary>
+        /// <param name="id">Competition ID.</param>
+        /// <returns>OkObjectResult object (competition).</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompetition([FromRoute] int id)
         {
@@ -45,20 +54,29 @@ namespace RezultatiAngular.Controllers
             return Ok(competition);
         }
 
-        // GET: api/Competitions/competitionsBySport/1
+        /// <summary>
+        /// GET: api/Competitions/competitionsBySport/1.
+        /// Retrieves all competitions for a particular sport.
+        /// </summary>
+        /// <param name="sportId">Sport ID.</param>
+        /// <returns>Competitions.</returns>
         [HttpGet("competitionsBySport/{sportId:int}")]
-        public ActionResult<List<Competition>> GetCompetitionsBySport([FromRoute] int sportId)
+        public IEnumerable<Competition> GetCompetitionsBySport([FromRoute] int sportId)
         {
             var competitions = this._context.Competitions
-                .Where(c => c.SportID == sportId)
-                .ToList();
+                .Where(c => c.SportID == sportId);
 
             return competitions;
         }
 
-        // GET: api/Competitions/possibleCompetitionsForTeam/1
+        /// <summary>
+        /// GET: api/Competitions/possibleCompetitionsForTeam/1.
+        /// Retrieves possible competitions for a particular team.
+        /// </summary>
+        /// <param name="teamID">Team ID.</param>
+        /// <returns>Competitions.</returns>
         [HttpGet("possibleCompetitionsForTeam/{teamID:int}")]
-        public ActionResult<List<Competition>> GetPossibleCompetitionsForTeam([FromRoute] int teamID)
+        public IEnumerable<Competition> GetPossibleCompetitionsForTeam([FromRoute] int teamID)
         {
             var sportID = _context.Teams
                 .Where(t => t.ID == teamID)
@@ -66,13 +84,18 @@ namespace RezultatiAngular.Controllers
                 .SingleOrDefault();
 
             var competitions = _context.Competitions
-                .Where(t => !t.CompetitionTeams.Any(c => c.TeamID == teamID) && t.SportID == sportID)
-                .ToList();
+                .Where(t => !t.CompetitionTeams.Any(c => c.TeamID == teamID) && t.SportID == sportID);
 
             return competitions;
         }
 
-        // PUT: api/Competitions/5
+        /// <summary>
+        /// PUT: api/Competitions/5.
+        /// Updates a specific competition.
+        /// </summary>
+        /// <param name="id">Competition ID.</param>
+        /// <param name="competition">Competition object.</param>
+        /// <returns>Status code.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompetition([FromRoute] int id, [FromBody] Competition competition)
         {
@@ -107,7 +130,12 @@ namespace RezultatiAngular.Controllers
             return NoContent();
         }
 
-        // POST: api/Competitions
+        /// <summary>
+        /// POST: api/Competitions.
+        /// Stores a competition to the database.
+        /// </summary>
+        /// <param name="competition">Competition object.</param>
+        /// <returns>CreatedAtActionResult object.</returns>
         [HttpPost]
         public async Task<IActionResult> PostCompetition([FromBody] Competition competition)
         {
@@ -122,7 +150,12 @@ namespace RezultatiAngular.Controllers
             return CreatedAtAction("GetCompetition", new { id = competition.ID }, competition);
         }
 
-        // DELETE: api/Competitions/5
+        /// <summary>
+        /// DELETE: api/Competitions/5.
+        /// Deletes a competition from the database.
+        /// </summary>
+        /// <param name="id">Competition ID.</param>
+        /// <returns>OkObjectResult object (competition).</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompetition([FromRoute] int id)
         {
@@ -143,6 +176,11 @@ namespace RezultatiAngular.Controllers
             return Ok(competition);
         }
 
+        /// <summary>
+        /// Checks if particular competition exists.
+        /// </summary>
+        /// <param name="id">Sport ID.</param>
+        /// <returns>Boolean.</returns>
         private bool CompetitionExists(int id)
         {
             return _context.Competitions.Any(e => e.ID == id);

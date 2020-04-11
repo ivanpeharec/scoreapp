@@ -25,7 +25,11 @@ namespace RezultatiAngular.Controllers
             _hostingEnviroment = environment;
         }
 
-        // GET: api/Teams
+        /// <summary>
+        /// GET: api/Teams.
+        /// Retrieves all teams.
+        /// </summary>
+        /// <returns>Teams.</returns>
         [HttpGet]
         public IEnumerable<Team> GetTeams()
         {
@@ -33,7 +37,12 @@ namespace RezultatiAngular.Controllers
             return teams;
         }
 
-        // GET: api/Teams/5
+        /// <summary>
+        /// GET: api/Teams/5.
+        /// Retrieves the specific team.
+        /// </summary>
+        /// <param name="id">Team ID.</param>
+        /// <returns>OkObjectResult object (team).</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTeam([FromRoute] int id)
         {
@@ -52,23 +61,41 @@ namespace RezultatiAngular.Controllers
             return Ok(team);
         }
 
+        /// <summary>
+        /// GET: api/Teams/teamsByCompetition/1.
+        /// Retrieves all teams for a particular competition.
+        /// </summary>
+        /// <param name="competitionID">Competition ID.</param>
+        /// <returns>Teams.</returns>
         [HttpGet("teamsByCompetition/{competitionID:int}")]
         public IEnumerable<Team> GetTeamsByCompetition([FromRoute] int competitionID)
         {
-            var teams = _context.Teams.Where(t => t.CompetitionTeams.Any(c => c.CompetitionID == competitionID)).ToList();
+            var teams = _context.Teams.Where(t => t.CompetitionTeams.Any(c => c.CompetitionID == competitionID));
 
             return teams;
         }
 
+        /// <summary>
+        /// GET: api/Teams/teamsBySport/1.
+        /// Retrieves all teams for a particular sport.
+        /// </summary>
+        /// <param name="sportID">Sport ID.</param>
+        /// <returns>Teams.</returns>
         [HttpGet("teamsBySport/{sportID:int}")]
         public IEnumerable<Team> GetTeamsBySport([FromRoute] int sportID)
         {
-            var teams = _context.Teams.Where(t => t.SportID == sportID).ToList();
+            var teams = _context.Teams.Where(t => t.SportID == sportID);
 
             return teams;
         }
 
-        // PUT: api/Teams/5
+        /// <summary>
+        /// PUT: api/Teams/5.
+        /// Updates a specific team.
+        /// </summary>
+        /// <param name="id">Team ID.</param>
+        /// <param name="team">Team object.</param>
+        /// <returns>Status code.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTeam([FromRoute] int id, [FromBody] Team team)
         {
@@ -103,7 +130,12 @@ namespace RezultatiAngular.Controllers
             return NoContent();
         }
 
-        // POST: api/Teams
+        /// <summary>
+        /// POST: api/Teams.
+        /// Stores a team to the database.
+        /// </summary>
+        /// <param name="team">Team object.</param>
+        /// <returns>CreatedAtActionResult object.</returns>
         [HttpPost]
         public async Task<IActionResult> PostTeam([FromBody] Team team)
         {
@@ -118,7 +150,12 @@ namespace RezultatiAngular.Controllers
             return CreatedAtAction("GetTeam", new { id = team.ID }, team);
         }
 
-        // DELETE: api/Teams/5
+        /// <summary>
+        /// DELETE: api/Teams/5.
+        /// Deletes a team from the database.
+        /// </summary>
+        /// <param name="id">Team ID.</param>
+        /// <returns>OkObjectResult object (team).</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTeam([FromRoute] int id)
         {
@@ -139,7 +176,12 @@ namespace RezultatiAngular.Controllers
             return Ok(team);
         }
 
-        // POST: api/Teams/addTeamToCompetition
+        /// <summary>
+        /// POST: api/Teams/addTeamToCompetition.
+        /// Creates a team-competition connection (new database record).
+        /// </summary>
+        /// <param name="competitionTeam">CompetitionTeam object.</param>
+        /// <returns>Status code.</returns>
         [HttpPost("addTeamToCompetition")]
         public async Task<IActionResult> PostTeamToCompetition([FromBody] CompetitionTeam competitionTeam)
         {
@@ -154,6 +196,12 @@ namespace RezultatiAngular.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// POST: api/Teams/upload/4.
+        /// Stores logo URL for specific team to the database.
+        /// </summary>
+        /// <param name="teamId">Team ID.</param>
+        /// <returns>Status code.</returns>
         [HttpPost("upload/{teamId}"), DisableRequestSizeLimit]
         public async Task<IActionResult> UploadAttachment([FromRoute] int teamId)
         {
@@ -195,7 +243,13 @@ namespace RezultatiAngular.Controllers
             }
         }
 
-        [HttpPost("updateLogo/{teamId}"), DisableRequestSizeLimit]
+        /// <summary>
+        /// PUT: api/Teams/updateLogo/4.
+        /// Updates a specific team's logo.
+        /// </summary>
+        /// <param name="teamId">Team ID.</param>
+        /// <returns>Status code.</returns>
+        [HttpPut("updateLogo/{teamId}"), DisableRequestSizeLimit]
         public async Task<IActionResult> UpdateAttachment([FromRoute] int teamId)
         {
             try
@@ -215,7 +269,9 @@ namespace RezultatiAngular.Controllers
                         file.CopyTo(stream);
                     }
 
-                    var logo = await _context.Attachments.Where(x => x.TeamID == teamId).FirstOrDefaultAsync();
+                    var logo = await _context.Attachments
+                        .Where(x => x.TeamID == teamId)
+                        .FirstOrDefaultAsync();
 
                     logo.Image = dbPath;
 
@@ -237,7 +293,7 @@ namespace RezultatiAngular.Controllers
                             throw;
                         }
                     }
-                    
+
                     return Ok(new { dbPath });
                 }
                 else
@@ -251,6 +307,12 @@ namespace RezultatiAngular.Controllers
             }
         }
 
+        /// <summary>
+        /// GET: api/Teams/uploads/1.
+        /// Retrieves logo of specific team.
+        /// </summary>
+        /// <param name="id">Team ID.</param>
+        /// <returns>Status code.</returns>
         [HttpGet("uploads/{id}")]
         public async Task<IActionResult> GetAttachment([FromRoute] int id)
         {
@@ -259,7 +321,9 @@ namespace RezultatiAngular.Controllers
                 return BadRequest(ModelState);
             }
 
-            var image = await _context.Attachments.Where(x => x.TeamID == id).LastOrDefaultAsync();
+            var image = await _context.Attachments
+                .Where(x => x.TeamID == id)
+                .LastOrDefaultAsync();
 
             if (image == null)
             {
@@ -271,6 +335,11 @@ namespace RezultatiAngular.Controllers
             return Ok(new { imageLink });
         }
 
+        /// <summary>
+        /// Checks if particular team exists.
+        /// </summary>
+        /// <param name="id">Team ID.</param>
+        /// <returns>Boolean.</returns>
         private bool TeamExists(int id)
         {
             return _context.Teams.Any(e => e.ID == id);

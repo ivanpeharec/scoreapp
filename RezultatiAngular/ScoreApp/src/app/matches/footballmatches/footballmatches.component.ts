@@ -32,37 +32,48 @@ export class FootballmatchesComponent implements OnInit {
 
   ngOnInit() {
     // Setting current date string.
-    this.currentSelectedDateString = this.currentSelectedDate.getDate() + '.' + (this.currentSelectedDate.getMonth() + 1) + '. ' + this.dayOfWeek(this.currentSelectedDate.getDay());
+    this.currentSelectedDateString = this.currentSelectedDate.getDate()
+      + '.'
+      + (this.currentSelectedDate.getMonth() + 1)
+      + '. '
+      + this.dayOfWeek(this.currentSelectedDate.getDay());
 
     // Data retreive.
     this.teamService.refreshList();
 
-    // Football ID = 1
+    // Football ID = 1.
     this.teamService.getTeamsBySport(1)
       .subscribe(
         res => {
           this.teams = res;
         },
-        err => { },
-        () => this.service.getMatchesByDateDifference(0)
-          .subscribe(
-            list => {
-              let array = list.map(item => {
-                return {
-                  Time: ("0" + new Date(item.Date).getHours()).slice(-2) + ':' + ("0" + new Date(item.Date).getMinutes()).slice(-2),
-                  HomeTeam: this.getTeamName(item.HomeTeamID),
-                  AwayTeam: this.getTeamName(item.AwayTeamID),
-                  HomeTeamScore: item.HomeTeamScore == null ? '' : item.HomeTeamScore,
-                  AwayTeamScore: item.AwayTeamScore == null ? '' : item.AwayTeamScore,
-                  HalfTimeScore: (item.HalfTimeHomeTeamScore == null ? '' : item.HalfTimeHomeTeamScore).toString() + ' - ' + (item.HalfTimeAwayTeamScore == null ? '' : item.HalfTimeAwayTeamScore).toString()
-                };
-              });
+        err => {
+          console.log(err);
+        },
+        () =>
+          // Get football (sport ID is 1) matches for today (dateDifference is 0).
+          this.service.getMatchesBySportByDateDifference(1, 0)
+            .subscribe(
+              list => {
+                let array = list.map(item => {
+                  return {
+                    Time: ("0" + new Date(item.Date).getHours()).slice(-2) + ':' + ("0" + new Date(item.Date).getMinutes()).slice(-2),
+                    HomeTeam: this.getTeamName(item.HomeTeamID),
+                    AwayTeam: this.getTeamName(item.AwayTeamID),
+                    HomeTeamScore: item.HomeTeamScore == null ? '' : item.HomeTeamScore,
+                    AwayTeamScore: item.AwayTeamScore == null ? '' : item.AwayTeamScore,
+                    HalfTimeScore: (item.HalfTimeHomeTeamScore == null ? '' : item.HalfTimeHomeTeamScore).toString() + ' - ' + (item.HalfTimeAwayTeamScore == null ? '' : item.HalfTimeAwayTeamScore).toString()
+                  };
+                });
 
-              this.listData = new MatTableDataSource(array);
-              this.listData.sort = this.sort;
-              this.listData.paginator = this.paginator;
-            }
-          )
+                this.listData = new MatTableDataSource(array);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+              },
+              err => {
+                console.log(err);
+              }
+            )
       );
   }
 
@@ -89,7 +100,11 @@ export class FootballmatchesComponent implements OnInit {
   }
 
   updateCurrentDateString() {
-    this.currentSelectedDateString = this.currentSelectedDate.getDate() + '.' + this.currentSelectedDate.getMonth() + '. ' + this.dayOfWeek(this.currentSelectedDate.getDay());
+    this.currentSelectedDateString = this.currentSelectedDate.getDate()
+      + '.'
+      + (this.currentSelectedDate.getMonth() + 1)
+      + '. '
+      + this.dayOfWeek(this.currentSelectedDate.getDay());
   }
 
   updateTable() {
@@ -97,7 +112,8 @@ export class FootballmatchesComponent implements OnInit {
     let differenceInTime = this.currentSelectedDate.getTime() - currentDate.getTime();
     let differenceInDays = Math.round((differenceInTime / (1000 * 3600 * 24)));
 
-    this.service.getMatchesByDateDifference(differenceInDays)
+    // Get football matches for selected date.
+    this.service.getMatchesBySportByDateDifference(1, differenceInDays)
       .subscribe(
         list => {
           let array = list.map(item => {

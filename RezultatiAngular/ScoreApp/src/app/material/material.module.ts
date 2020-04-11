@@ -19,7 +19,8 @@ import * as Material from '@angular/material';
     Material.MatCheckboxModule,
     Material.MatTableModule,
     Material.MatPaginatorModule,
-    Material.MatSortModule
+    Material.MatSortModule,
+    Material.MatSlideToggleModule
   ],
   exports: [
     Material.MatToolbarModule,
@@ -35,7 +36,8 @@ import * as Material from '@angular/material';
     Material.MatCheckboxModule,
     Material.MatTableModule,
     Material.MatPaginatorModule,
-    Material.MatSortModule
+    Material.MatSortModule,
+    Material.MatSlideToggleModule
   ]
 })
 export class MaterialModule { }

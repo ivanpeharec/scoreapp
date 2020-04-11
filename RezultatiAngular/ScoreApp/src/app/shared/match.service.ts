@@ -109,6 +109,13 @@ export class MatchService {
     return this.http.get<Match[]>(this.rootURL + 'byDateDifference/' + dateDifference);
   }
 
+  // Calling API method to retrieve matches on specific date for a particular sport.
+  // dateDifference - difference in days compared to today.
+  // sportID - sport ID.
+  getMatchesBySportByDateDifference(sportID, dateDifference) {
+    return this.http.get<Match[]>(this.rootURL + 'bySportByDateDifference/' + sportID + '/' + dateDifference);
+  }
+
   // Calling API method to delete a match with specified ID.
   // id - match ID.
   deleteMatch(id: number) {

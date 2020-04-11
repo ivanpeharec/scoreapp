@@ -86,7 +86,7 @@ export class TeamService {
   }
 
   updateImagePath(formData: FormData, teamId: number) {
-    return this.http.post(this.rootURL + 'updateLogo/' + teamId, formData);
+    return this.http.put(this.rootURL + 'updateLogo/' + teamId, formData);
   }
 
   // Gets image path.

@@ -20,7 +20,11 @@ namespace RezultatiAngular.Controllers
             _userManager = userManager;
         }
 
-        // GET: /api/UserProfile
+        /// <summary>
+        /// GET: /api/UserProfile.
+        /// Retrieves user details.
+        /// </summary>
+        /// <returns>Object containing user data.</returns>
         [HttpGet]
         [Authorize]
         public async Task<Object> GetUserProfile()

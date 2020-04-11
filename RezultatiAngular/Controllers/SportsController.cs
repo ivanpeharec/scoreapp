@@ -19,14 +19,23 @@ namespace RezultatiAngular.Controllers
             _context = context;
         }
 
-        // GET: api/Sports
+        /// <summary>
+        /// GET: api/Sports.
+        /// Retrieves all sports.
+        /// </summary>
+        /// <returns>Sports.</returns>
         [HttpGet]
         public IEnumerable<Sport> GetSports()
         {
             return _context.Sports;
         }
 
-        // GET: api/Sports/5
+        /// <summary>
+        /// GET: api/Sports/5.
+        /// Retrieves the specific sport.
+        /// </summary>
+        /// <param name="id">Sport ID.</param>
+        /// <returns>OkObjectResult object (sport).</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSport([FromRoute] int id)
         {
@@ -45,7 +54,13 @@ namespace RezultatiAngular.Controllers
             return Ok(sport);
         }
 
-        // PUT: api/Sports/5
+        /// <summary>
+        /// PUT: api/Sports/5.
+        /// Updates a specific sport.
+        /// </summary>
+        /// <param name="id">Sport ID.</param>
+        /// <param name="sport">Sport object.</param>
+        /// <returns>Status code.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSport([FromRoute] int id, [FromBody] Sport sport)
         {
@@ -80,7 +95,12 @@ namespace RezultatiAngular.Controllers
             return NoContent();
         }
 
-        // POST: api/Sports
+        /// <summary>
+        /// POST: api/Sports.
+        /// Stores a sport to the database.
+        /// </summary>
+        /// <param name="sport">Sport object.</param>
+        /// <returns>CreatedAtActionResult object.</returns>
         [HttpPost]
         public async Task<IActionResult> PostSport([FromBody] Sport sport)
         {
@@ -95,7 +115,12 @@ namespace RezultatiAngular.Controllers
             return CreatedAtAction("GetSport", new { id = sport.ID }, sport);
         }
 
-        // DELETE: api/Sports/5
+        /// <summary>
+        /// DELETE: api/Sports/5.
+        /// Deletes a sport from the database.
+        /// </summary>
+        /// <param name="id">Sport ID.</param>
+        /// <returns>OkObjectResult object (sport).</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSport([FromRoute] int id)
         {
@@ -116,6 +141,11 @@ namespace RezultatiAngular.Controllers
             return Ok(sport);
         }
 
+        /// <summary>
+        /// Checks if particular sport exists.
+        /// </summary>
+        /// <param name="id">Sport ID.</param>
+        /// <returns>Boolean.</returns>
         private bool SportExists(int id)
         {
             return _context.Sports.Any(e => e.ID == id);

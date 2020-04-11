@@ -19,14 +19,23 @@ namespace RezultatiAngular.Controllers
             _context = context;
         }
 
-        // GET: api/Attachments
+        /// <summary>
+        /// GET: api/Attachments.
+        /// Retrieves all attachments.
+        /// </summary>
+        /// <returns>Attachments.</returns>
         [HttpGet]
         public IEnumerable<Attachment> GetAttachments()
         {
             return _context.Attachments;
         }
 
-        // GET: api/Attachments/5
+        /// <summary>
+        /// GET: api/Attachments/5.
+        /// Retrieves the specific attachment.
+        /// </summary>
+        /// <param name="id">Attachment ID.</param>
+        /// <returns>OkObjectResult object (attachment).</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAttachment([FromRoute] int id)
         {
@@ -45,7 +54,13 @@ namespace RezultatiAngular.Controllers
             return Ok(attachment);
         }
 
-        // PUT: api/Attachments/5
+        /// <summary>
+        /// PUT: api/Attachments/5.
+        /// Updates a specific attachment.
+        /// </summary>
+        /// <param name="id">Attachment ID.</param>
+        /// <param name="attachment">Attachment object.</param>
+        /// <returns>Status code.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAttachment([FromRoute] int id, [FromBody] Attachment attachment)
         {
@@ -80,7 +95,12 @@ namespace RezultatiAngular.Controllers
             return NoContent();
         }
 
-        // POST: api/Attachments
+        /// <summary>
+        /// POST: api/Attachments.
+        /// Stores an attachment to the database.
+        /// </summary>
+        /// <param name="attachment">Attachment object.</param>
+        /// <returns>CreatedAtActionResult object.</returns>
         [HttpPost]
         public async Task<IActionResult> PostAttachment([FromBody] Attachment attachment)
         {
@@ -95,7 +115,12 @@ namespace RezultatiAngular.Controllers
             return CreatedAtAction("GetAttachment", new { id = attachment.ID }, attachment);
         }
 
-        // DELETE: api/Attachments/5
+        /// <summary>
+        /// DELETE: api/Attachments/5.
+        /// Deletes an attachment. 
+        /// </summary>
+        /// <param name="id">Attachment ID.</param>
+        /// <returns>OkObjectResult object (attachment).</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAttachment([FromRoute] int id)
         {
@@ -116,6 +141,11 @@ namespace RezultatiAngular.Controllers
             return Ok(attachment);
         }
 
+        /// <summary>
+        /// Checks if particular attachment exists.
+        /// </summary>
+        /// <param name="id">Attachment ID.</param>
+        /// <returns>Boolean.</returns>
         private bool AttachmentExists(int id)
         {
             return _context.Attachments.Any(e => e.ID == id);

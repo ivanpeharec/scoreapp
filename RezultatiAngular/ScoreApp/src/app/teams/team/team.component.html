@@ -63,8 +63,8 @@
                 <div class="custom-file">
                     <label class="bold control-label">Image</label>
 
-                    <input type="file" #file id="validatedCustomFile" [(ngModel)]="uploadedFile" name="uploadedFile" accept='image/*'
-                        (change)="fileInputChange(file.files)" class="hide">
+                    <input type="file" #file id="validatedCustomFile" [(ngModel)]="uploadedFile" name="uploadedFile"
+                        accept='image/*' (change)="fileInputChange(file.files)" class="hide">
 
                     <label class="custom-file-label hoverHand imageInput" #labelImport for="validatedCustomFile"
                         [ngClass]="{ 'isValid' : fileUploaded }">Choose file...</label>
@@ -102,8 +102,10 @@
                 </mat-form-field>
 
                 <!-- Active / not active. -->
-                <div class="checkboxFormContainer">
-                    <mat-checkbox formControlName="Active">Active</mat-checkbox>
+                <div class="materialSlider">
+                    <mat-slide-toggle formControlName="Active">
+                        Active
+                    </mat-slide-toggle>
                 </div>
 
                 <!-- Form submit button. -->

@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/user/login', pathMatch: 'full'},
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'forbidden', component: ForbiddenComponent },
-  { path: 'not-found', component: NotFoundComponent },
+  { path: '404', component: NotFoundComponent },
   { path: 'matches/all', component: MatchesComponent, canActivate: [AuthGuard] },
   { path: 'new-match', component: MatchComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
   { path: 'edit-match/:id', component: MatchComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
@@ -41,15 +41,16 @@ const routes: Routes = [
   { path: 'teams', component: TeamsComponent, canActivate: [AuthGuard] },
   { path: 'new-team', component: TeamComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
   { path: 'edit-team/:id', component: TeamComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
-  { path: 'teams-per-competition/:id', component: TeamsPerCompetitionComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
-  { path: 'competitions-per-sport/:id', component: CompetitionsPerSportComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
+  { path: 'teams-per-competition/:id', component: TeamsPerCompetitionComponent, canActivate: [AuthGuard] },
+  { path: 'competitions-per-sport/:id', component: CompetitionsPerSportComponent, canActivate: [AuthGuard] },
   {
     path: 'user', component: UserComponent,
     children: [
       { path: 'registration', component: RegistrationComponent },
       { path: 'login', component: LoginComponent }
     ]
-  }
+  },
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

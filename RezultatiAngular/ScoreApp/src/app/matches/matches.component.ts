@@ -114,7 +114,11 @@ export class MatchesComponent implements OnInit {
   }
 
   updateCurrentDateString() {
-    this.currentSelectedDateString = this.currentSelectedDate.getDate() + '.' + this.currentSelectedDate.getMonth() + '. ' + this.dayOfWeek(this.currentSelectedDate.getDay());
+    this.currentSelectedDateString = this.currentSelectedDate.getDate()
+      + '.'
+      + (this.currentSelectedDate.getMonth() + 1)
+      + '. '
+      + this.dayOfWeek(this.currentSelectedDate.getDay());
   }
 
   updateTable() {

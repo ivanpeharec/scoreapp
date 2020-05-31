@@ -1,11 +1,11 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a routerLink="/">Home</a>
-        </li>
-        <li class="breadcrumb-item">Competitions</li>
-    </ol>
-</nav>
+<!-- Competition list. -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="mainTitle">
+            Competitions
+        </div>
+    </div>
+</div>
 
 <div class="searchDiv marginBottom">
     <mat-form-field class="searchFormField" floatLabel="never">
@@ -26,7 +26,7 @@
                 </mat-header-cell>
 
                 <mat-cell *matCellDef="let competition">
-                    {{ competition.Name }}
+                    {{competition.Name}}
                 </mat-cell>
             </ng-container>
 

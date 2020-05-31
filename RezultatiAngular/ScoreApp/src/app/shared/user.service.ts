@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +9,7 @@ export class UserService {
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
 
+  navbarLoaded = false;
   isAuthenticated = false;
   isAdministrator = false;
 
@@ -68,14 +68,18 @@ export class UserService {
   }
 
   isAdmin() {
-    var payLoad = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
-    var userRole = payLoad.role;
-    if (userRole == 'Admin') {
-      this.isAdministrator = true;
-      return true;
+    if (this.isAuthenticated) {
+      var payLoad = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var userRole = payLoad.role;
+      if (userRole == 'Admin') {
+        this.isAdministrator = true;
+        return true;
+      }
+      else {
+        return false;
+      }
     }
-    else {
-      return false;
-    }
+
+    return false;
   }
 }

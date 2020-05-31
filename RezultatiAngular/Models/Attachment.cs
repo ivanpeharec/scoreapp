@@ -20,13 +20,13 @@ namespace RezultatiAngular.Models
         public int TeamID { get; set; }
 
         /// <summary>
-        /// Team object.
-        /// </summary>
-        public Team Team { get; set; }
-
-        /// <summary>
         /// Relative attachment path.
         /// </summary>
         public string Image { get; set; }
+
+        /// <summary>
+        /// Team object.
+        /// </summary>
+        public virtual Team Team { get; set; }
     }
 }

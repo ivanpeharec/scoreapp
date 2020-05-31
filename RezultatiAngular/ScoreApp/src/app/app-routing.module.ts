@@ -14,7 +14,6 @@ import { IcehockeymatchesComponent } from './matches/icehockeymatches/icehockeym
 import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { LoginComponent } from './user/login/login.component';
-import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -22,27 +21,26 @@ import { TeamsPerCompetitionComponent } from './teams-per-competition/teams-per-
 import { CompetitionsPerSportComponent } from './competitions-per-sport/competitions-per-sport.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/user/login', pathMatch: 'full'},
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '', component: FootballmatchesComponent },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '404', component: NotFoundComponent },
   { path: 'matches/all', component: MatchesComponent, canActivate: [AuthGuard] },
   { path: 'new-match', component: MatchComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
   { path: 'edit-match/:id', component: MatchComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
-  { path: 'matches/football', component: FootballmatchesComponent, canActivate: [AuthGuard] },
-  { path: 'matches/basketball', component: BasketballmatchesComponent, canActivate: [AuthGuard] },
-  { path: 'matches/icehockey', component: IcehockeymatchesComponent, canActivate: [AuthGuard] },
-  { path: 'sports', component: SportsComponent, canActivate: [AuthGuard] },
+  { path: 'matches/football', component: FootballmatchesComponent },
+  { path: 'matches/basketball', component: BasketballmatchesComponent },
+  { path: 'matches/icehockey', component: IcehockeymatchesComponent },
+  { path: 'sports', component: SportsComponent },
   { path: 'new-sport', component: SportComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
   { path: 'edit-sport/:id', component: SportComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
-  { path: 'competitions', component: CompetitionsComponent, canActivate: [AuthGuard] },
+  { path: 'competitions', component: CompetitionsComponent },
   { path: 'new-competition', component: CompetitionComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
   { path: 'edit-competition/:id', component: CompetitionComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
-  { path: 'teams', component: TeamsComponent, canActivate: [AuthGuard] },
+  { path: 'teams', component: TeamsComponent },
   { path: 'new-team', component: TeamComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
   { path: 'edit-team/:id', component: TeamComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
-  { path: 'teams-per-competition/:id', component: TeamsPerCompetitionComponent, canActivate: [AuthGuard] },
-  { path: 'competitions-per-sport/:id', component: CompetitionsPerSportComponent, canActivate: [AuthGuard] },
+  { path: 'teams-per-competition/:id', component: TeamsPerCompetitionComponent },
+  { path: 'competitions-per-sport/:id', component: CompetitionsPerSportComponent },
   {
     path: 'user', component: UserComponent,
     children: [

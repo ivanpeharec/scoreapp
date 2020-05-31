@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatchService } from 'src/app/shared/match.service';
 import { SportService } from 'src/app/shared/sport.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,8 @@ import { Competition } from 'src/app/shared/competition.model';
 import { CompetitionService } from 'src/app/shared/competition.service';
 import { TeamService } from 'src/app/shared/team.service';
 import { Team } from 'src/app/shared/team.model';
-import { NgForm } from '@angular/forms';
+import { concatMap } from 'rxjs/operators';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-match',
@@ -25,11 +26,38 @@ export class MatchComponent implements OnInit {
     CompetitionID: 0,
     HomeTeamID: 0,
     AwayTeamID: 0,
-    HomeTeamScore: null,
-    AwayTeamScore: null,
-    HalfTimeHomeTeamScore: null,
-    HalfTimeAwayTeamScore: null
+    FootballMatchComponents: {
+      MatchID: 0,
+      HalfTimeHomeTeamScore: null,
+      HalfTimeAwayTeamScore: null,
+      HomeTeamScore: null,
+      AwayTeamScore: null
+    },
+    BasketballMatchComponents: {
+      MatchID: 0,
+      FirstQuarterHomeTeamScore: null,
+      FirstQuarterAwayTeamScore: null,
+      SecondQuarterHomeTeamScore: null,
+      SecondQuarterAwayTeamScore: null,
+      ThirdQuarterHomeTeamScore: null,
+      ThirdQuarterAwayTeamScore: null,
+      FourthQuarterHomeTeamScore: null,
+      FourthQuarterAwayTeamScore: null
+    },
+    IceHockeyMatchComponents: {
+      MatchID: 0,
+      FirstPeriodHomeTeamScore: null,
+      FirstPeriodAwayTeamScore: null,
+      SecondPeriodHomeTeamScore: null,
+      SecondPeriodAwayTeamScore: null,
+      ThirdPeriodHomeTeamScore: null,
+      ThirdPeriodAwayTeamScore: null
+    }
   };
+
+  sports: Sport[];
+  competitions: Competition[];
+  teams: Team[];
 
   // Time static values.
   timeList: string[] = [
@@ -58,74 +86,118 @@ export class MatchComponent implements OnInit {
     '22:00', '22:05', '22:10', '22:15', '22:20', '22:25', '22:30', '22:35', '22:40', '22:45', '22:50', '22:55',
     '23:00', '23:05', '23:10', '23:15', '23:20', '23:25', '23:30', '23:35', '23:40', '23:45', '23:50', '23:55'];
 
-  selectedSportID: number;
-  selectedCompetitionID: number;
-  selectedHomeTeamID: number;
-  selectedAwayTeamID: number;
-  selectedTime: string;
-
-  sports: Sport[];
-  competitions: Competition[];
-  teams: Team[];
-
-  loaded = false;
-
-  constructor(private service: MatchService,
+  @ViewChild('stepper') stepper: MatStepper;
+  constructor(public service: MatchService,
     private sportService: SportService,
     private competitionService: CompetitionService,
     private teamService: TeamService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
-    private router: Router) {
-    this.service.form.reset();
-
-    route.params.subscribe(p => {
-      this.match.ID = +p['id'];
-    }, err => {
-      if (err.status == 404)
-        this.router.navigate(['/matches']);
-    });
-  }
+    private router: Router) { }
 
   ngOnInit() {
+    this.resetMatchObject();
+    this.service.matchForm.reset();
+    this.service.footballMatchComponentsForm.reset();
+    this.service.basketballMatchComponentsForm.reset();
+    this.service.iceHockeyMatchComponentsForm.reset();
+
+    this.route.params
+      .subscribe(
+        p => {
+          this.match.ID = +p['id'];
+        },
+        err => {
+          if (err.status == 404)
+            this.router.navigate(['/matches/all']);
+        });
+
     if (this.match.ID > 0) {
       this.service.getMatch(this.match.ID)
-        .subscribe(b => {
-          this.match = b as Match;
+        .subscribe(
+          res => {
+            this.match = res as Match;
 
-          this.service.form.patchValue({
-            ID: this.match.ID,
-            Date: this.match.Date,
-            Time: this.match.Date.toTimeString,
-            SportID: this.match.SportID,
-            CompetitionID: this.match.CompetitionID,
-            HomeTeamID: this.match.HomeTeamID,
-            AwayTeamID: this.match.AwayTeamID,
-            HomeTeamScore: this.match.HomeTeamScore,
-            AwayTeamScore: this.match.AwayTeamScore,
-            HalfTimeHomeTeamScore: this.match.HalfTimeHomeTeamScore,
-            HalfTimeAwayTeamScore: this.match.HalfTimeAwayTeamScore
+            this.service.matchForm.patchValue({
+              ID: this.match.ID,
+              Date: this.match.Date,
+              Time: new Date(this.match.Date).toTimeString().substring(0, 5),
+              SportID: this.match.SportID,
+              CompetitionID: this.match.CompetitionID,
+              HomeTeamID: this.match.HomeTeamID,
+              AwayTeamID: this.match.AwayTeamID
+            });
+
+            switch (this.match.SportID) {
+              case 1: {
+                this.service.footballMatchComponentsForm.patchValue({
+                  MatchID: this.match.FootballMatchComponents?.MatchID,
+                  HalfTimeHomeTeamScore: this.match.FootballMatchComponents?.HalfTimeHomeTeamScore,
+                  HalfTimeAwayTeamScore: this.match.FootballMatchComponents?.HalfTimeAwayTeamScore,
+                  HomeTeamScore: this.match.FootballMatchComponents?.HomeTeamScore,
+                  AwayTeamScore: this.match.FootballMatchComponents?.AwayTeamScore
+                });
+
+                break;
+              }
+              case 2: {
+                this.service.basketballMatchComponentsForm.patchValue({
+                  MatchID: this.match.BasketballMatchComponents?.MatchID,
+                  FirstQuarterHomeTeamScore: this.match.BasketballMatchComponents?.FirstQuarterHomeTeamScore,
+                  FirstQuarterAwayTeamScore: this.match.BasketballMatchComponents?.FirstQuarterAwayTeamScore,
+                  SecondQuarterHomeTeamScore: this.match.BasketballMatchComponents?.SecondQuarterHomeTeamScore,
+                  SecondQuarterAwayTeamScore: this.match.BasketballMatchComponents?.SecondQuarterAwayTeamScore,
+                  ThirdQuarterHomeTeamScore: this.match.BasketballMatchComponents?.ThirdQuarterHomeTeamScore,
+                  ThirdQuarterAwayTeamScore: this.match.BasketballMatchComponents?.ThirdQuarterAwayTeamScore,
+                  FourthQuarterHomeTeamScore: this.match.BasketballMatchComponents?.FourthQuarterHomeTeamScore,
+                  FourthQuarterAwayTeamScore: this.match.BasketballMatchComponents?.FourthQuarterAwayTeamScore
+                });
+
+                break;
+              }
+              case 5: {
+                this.service.iceHockeyMatchComponentsForm.patchValue({
+                  MatchID: this.match.IceHockeyMatchComponents?.MatchID,
+                  FirstPeriodHomeTeamScore: this.match.IceHockeyMatchComponents?.FirstPeriodHomeTeamScore,
+                  FirstPeriodAwayTeamScore: this.match.IceHockeyMatchComponents?.FirstPeriodAwayTeamScore,
+                  SecondPeriodHomeTeamScore: this.match.IceHockeyMatchComponents?.SecondPeriodHomeTeamScore,
+                  SecondPeriodAwayTeamScore: this.match.IceHockeyMatchComponents?.SecondPeriodAwayTeamScore,
+                  ThirdPeriodHomeTeamScore: this.match.IceHockeyMatchComponents?.ThirdPeriodHomeTeamScore,
+                  ThirdPeriodAwayTeamScore: this.match.IceHockeyMatchComponents?.ThirdPeriodAwayTeamScore
+                });
+
+                break;
+              }
+            }
           });
-
-          this.selectedTime = new Date(this.service.form.value.Date).toTimeString().substring(0, 5);
-
-          this.loaded = true;
-        });
     }
     else {
-      this.loaded = true;
+      this.resetMatchObject();
     }
 
-    this.resetForm();
-    this.service.refreshList();
-
+    // Retrieving all sports.
     this.sportService.getSports()
-      .subscribe(b => {
-        this.sports = b;
-      });
+      .subscribe(
+        res => {
+          this.sports = res;
+        });
+
+    // Listen to sport control being changed and reload possible competitions.
+    this.service.matchForm.get("SportID").valueChanges
+      .subscribe(
+        res => {
+          this.onSelectSport();
+        });
+
+    // Listen to competition control being changed and reload possible teams.
+    this.service.matchForm.get("CompetitionID").valueChanges
+      .subscribe(
+        res => {
+          this.onSelectCompetition();
+        });
   }
 
-  resetForm(form?: NgForm) {
+  resetMatchObject() {
     this.match = {
       ID: 0,
       Date: new Date(),
@@ -133,85 +205,118 @@ export class MatchComponent implements OnInit {
       CompetitionID: 0,
       HomeTeamID: 0,
       AwayTeamID: 0,
-      HomeTeamScore: null,
-      AwayTeamScore: null,
-      HalfTimeHomeTeamScore: null,
-      HalfTimeAwayTeamScore: null
+      FootballMatchComponents: null,
+      BasketballMatchComponents: null,
+      IceHockeyMatchComponents: null
     };
   }
 
-  onSubmit(form: NgForm) {
+  submitForms() {
     if (this.match.ID == 0) {
-      this.insertRecord(form);
+      this.insertRecord();
     }
     else {
       this.updateRecord();
     }
   }
 
-  insertRecord(form: NgForm) {
-    this.service.postMatch().subscribe(
+  insertRecord() {
+    this.service.postMatch().pipe(
+      concatMap(
+        match => {
+          this.stepper.selectedIndex = 0;
+          let currentMatch = match as Match;
+          return this.service.postMatchDetails(currentMatch.ID);
+        }
+      )
+    ).subscribe(
       res => {
-        this.toastr.success('Match inserted successfully.', 'Success!');
-        form.resetForm();
-        this.service.form.reset();
+        this.toastr.success('Match inserted successfully');
+        this.stepper.reset();
       },
       err => {
+        this.toastr.error('There was an error while inserting the match.');
         console.log(err);
-        this.toastr.error('There was an error while inserting the match!', 'Fail!');
       }
     );
   }
 
   updateRecord() {
-    this.service.putMatch().subscribe(
+    this.service.putMatch().pipe(
+      concatMap(
+        res => {
+          return this.submitMatchDetails();
+        }
+      )
+    ).subscribe(
       res => {
-        this.toastr.success('Match edited successfully');
-        this.service.refreshList();
+        this.toastr.success('Match updated successfully');
+        this.stepper.reset();
+        this.router.navigate(['/matches/all']);
       },
       err => {
+        this.toastr.error('There was an error while updating the match.');
         console.log(err);
       }
-    )
+    );
+  }
+
+  submitMatchDetails() {
+    if (this.service.matchForm.value.SportID == 1 && this.service.footballMatchComponentsForm.value.MatchID > 0
+        || this.service.matchForm.value.SportID == 2 && this.service.basketballMatchComponentsForm.value.MatchID > 0
+        || this.service.matchForm.value.SportID == 5 && this.service.iceHockeyMatchComponentsForm.value.MatchID > 0) {
+      return this.service.putMatchDetails(this.match.ID);
+    }
+    else {
+      return this.service.postMatchDetails(this.match.ID);
+    }
   }
 
   // On every change of selected sport, this method filters available competitions for the selected sport. 
   onSelectSport() {
-    // Reinitialize variables.
-    this.selectedCompetitionID = undefined;
-    this.selectedHomeTeamID = undefined;
-    this.selectedAwayTeamID = undefined;
+    // Reset form controls and arrays.
+    this.service.matchForm.get('CompetitionID').reset();
+    this.service.matchForm.get('HomeTeamID').reset();
+    this.service.matchForm.get('AwayTeamID').reset();
     this.competitions = [];
     this.teams = [];
 
-    if (this.selectedSportID) {
-      this.competitionService.getCompetitionsBySport(this.selectedSportID).subscribe(
-        res => {
-          this.competitions = res;
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    this.service.footballMatchComponentsForm.reset();
+    this.service.basketballMatchComponentsForm.reset();
+    this.service.iceHockeyMatchComponentsForm.reset();
+
+    if (this.service.matchForm.get("SportID").value) {
+      this.competitionService
+        .getCompetitionsBySport(this.service.matchForm.get("SportID").value)
+        .subscribe(
+          res => {
+            this.competitions = res;
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
   }
 
   // On every change of selected competition, this method filters available teams for the selected competition. 
   onSelectCompetition() {
-    // Reinitialize variables.
-    this.selectedHomeTeamID = undefined;
-    this.selectedAwayTeamID = undefined;
+    // Reset form controls and arrays.
+    this.service.matchForm.get('HomeTeamID').reset();
+    this.service.matchForm.get('AwayTeamID').reset();
     this.teams = [];
 
-    if (this.selectedCompetitionID) {
-      this.teamService.getTeamsByCompetition(this.selectedCompetitionID).subscribe(
-        res => {
-          this.teams = res;
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    if (this.service.matchForm.get("CompetitionID").value) {
+      this.teamService
+        .getTeamsByCompetition(this.service.matchForm.get("CompetitionID").value)
+        .subscribe(
+          res => {
+            this.teams = res;
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
   }
 }

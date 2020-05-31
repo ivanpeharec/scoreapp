@@ -1,66 +1,16 @@
-<!-- <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a routerLink="/">Home</a>
-        </li>
-        <li class="breadcrumb-item">Matches</li>
-    </ol>
-</nav>
-
-<div class="dateContainer">
-    <button (click)="reduceDate()" class="dateSwitchButton"><i class="fas fa-arrow-left"></i></button>
-    <div class="currentDateDiv">{{ currentSelectedDateString }}</div>
-    <button (click)="increaseDate()" class="dateSwitchButton"><i class="fas fa-arrow-right"></i></button>
+<!-- Match list. -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="mainTitle">
+            Matches
+        </div>
+    </div>
 </div>
-
-<table class="table table-borderless entityList" *ngIf="loading">
-    <thead>
-        <tr>
-            <th scope="col" class="alignCenter">Date</th>
-
-            <th scope="col" class="alignCenter">FT</th>
-
-            <th scope="col" colspan="3" *ngIf="userService.isAdmin()">Match</th>
-
-            <th scope="col" *ngIf="!userService.isAdmin()">Match</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let match of service.list" class="dataRow">
-            <td width="155px" class="alignCenter">{{match.Date | date:'dd.MM.yyyy. HH:mm'}}</td>
-
-            <td width="85px" class="alignCenter">{{match.HomeTeamScore}} - {{match.AwayTeamScore}}</td>
-
-            <td *ngIf="teams">{{getTeamName(match.HomeTeamID)}} - {{getTeamName(match.AwayTeamID)}}</td>
-
-            <td width="20px" *ngIf="userService.isAdmin()">
-                <a [routerLink]="['/edit-match/', match.ID]" title="Edit">
-                    <i class="fas fa-pen fa-lg text-warning"></i>
-                </a>
-            </td>
-
-            <td width="20px" (click)="onDelete(match.ID)" *ngIf="userService.isAdmin()">
-                <a [routerLink]="" title="Delete">
-                    <i class="far fa-trash-alt fa-lg text-danger"></i>
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table> -->
-<!-- Route. -->
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a routerLink="/">Home</a>
-        </li>
-        <li class="breadcrumb-item">Matches</li>
-    </ol>
-</nav>
 
 <!-- Date picker. -->
 <div class="dateContainer">
     <button (click)="reduceDate()" class="dateSwitchButton"><i class="fas fa-arrow-left"></i></button>
-    <div class="currentDateDiv">{{ currentSelectedDateString }}</div>
+    <div class="currentDateDiv">{{currentSelectedDateString}}</div>
     <button (click)="increaseDate()" class="dateSwitchButton"><i class="fas fa-arrow-right"></i></button>
 </div>
 
@@ -81,20 +31,13 @@
         <mat-table [dataSource]="listData" class="listTable">
             <!-- Match time. -->
             <ng-container matColumnDef="Time">
-                <mat-cell *matCellDef="let match">{{ match.Time }}</mat-cell>
+                <mat-cell *matCellDef="let match">{{match.Time}}</mat-cell>
             </ng-container>
 
             <!-- Home team name. -->
             <ng-container matColumnDef="HomeTeam">
                 <mat-cell *matCellDef="let match">
-                    {{ match.HomeTeam }}
-                </mat-cell>
-            </ng-container>
-
-            <!-- Home team score. -->
-            <ng-container matColumnDef="HomeTeamScore">
-                <mat-cell *matCellDef="let match">
-                    {{ match.HomeTeamScore }}
+                    {{match.HomeTeam}}
                 </mat-cell>
             </ng-container>
 
@@ -103,25 +46,25 @@
                 <mat-cell *matCellDef="let match">-</mat-cell>
             </ng-container>
 
-            <!-- Away team score. -->
-            <ng-container matColumnDef="AwayTeamScore">
-                <mat-cell *matCellDef="let match">
-                    {{ match.AwayTeamScore }}
-                </mat-cell>
-            </ng-container>
-
             <!-- Away team name. -->
             <ng-container matColumnDef="AwayTeam">
                 <mat-cell *matCellDef="let match">
-                    {{ match.AwayTeam }}
+                    {{match.AwayTeam}}
                 </mat-cell>
             </ng-container>
 
-            <!-- Half time score. -->
-            <ng-container matColumnDef="HalfTimeScore">
+            <ng-container matColumnDef="EditOrDelete">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let match">
-                    <span *ngIf="match.HalfTimeScore.length > 3"
-                        class="halfTimeScore">({{ match.HalfTimeScore }})</span>
+                    <a [routerLink]="['/edit-match/', match.ID]" title="Edit">
+                        <i class="fas fa-pen fa-lg text-warning iconFontSize"></i>
+                    </a>
+
+                    <span class="emptySpace">&nbsp;</span>
+
+                    <a [routerLink]="" title="Delete" (click)="onDelete(match.ID)">
+                        <i class="far fa-trash-alt fa-lg text-danger iconFontSize"></i>
+                    </a>
                 </mat-cell>
             </ng-container>
 

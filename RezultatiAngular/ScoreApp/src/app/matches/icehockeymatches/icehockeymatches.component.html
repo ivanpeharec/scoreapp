@@ -1,27 +1,117 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Ice hockey matches</li>
-    </ol>
-</nav>
-<table class="table table-borderless" *ngIf="loading">
-    <thead>
-        <tr>
-            <th scope="col" class="alignCenter">Date</th>
-            <th scope="col" class="alignCenter">FT</th>
-            <th scope="col" colspan="3" *ngIf="userService.isAdmin()">Match</th>
-            <th scope="col" *ngIf="!userService.isAdmin()">Match</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let match of matches">
-            <td width="155px" class="alignCenter">{{match.Date | date:'dd.MM.yyyy. HH:mm'}}</td>
-            <td width="85px" class="alignCenter">{{match.HomeTeamScore}} - {{match.AwayTeamScore}}</td>
-            <td *ngIf="teams">{{getTeamName(match.HomeTeamID)}} - {{getTeamName(match.AwayTeamID)}}</td>
-            <td width="20px" *ngIf="userService.isAdmin()"><a [routerLink]="['/edit-match/', match.ID]"><i
-                        class="fas fa-pen fa-lg text-warning"></i></a></td>
-            <td width="20px" (click)="onDelete(match.ID)" *ngIf="userService.isAdmin()"><a [routerLink]=""><i
-                        class="far fa-trash-alt fa-lg text-danger"></i></a></td>
-        </tr>
-    </tbody>
-</table>
+<!-- Ice hockey match list. -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="mainTitle">
+            Ice hockey matches
+        </div>
+    </div>
+</div>
+
+<!-- Date picker. -->
+<div class="dateContainer">
+    <!-- Day before the current one. -->
+    <button (click)="reduceDate()" class="dateSwitchButton">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <!-- Current date. -->
+    <div class="currentDateDiv">{{currentSelectedDateString}}</div>
+
+    <!-- Day afther the current one. -->
+    <button (click)="increaseDate()" class="dateSwitchButton">
+        <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
+
+<!-- Search field. -->
+<div class="searchDiv">
+    <mat-form-field class="searchFormField" floatLabel="never">
+        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+
+<!-- Data table. -->
+<div class="row">
+    <div class="col-xl-12">
+        <mat-table [dataSource]="listData" class="listTable">
+            <!-- Match time. -->
+            <ng-container matColumnDef="Time">
+                <mat-cell *matCellDef="let match">{{match.Time}}</mat-cell>
+            </ng-container>
+
+            <!-- Team names. -->
+            <ng-container matColumnDef="TeamNames">
+                <mat-cell *matCellDef="let match">
+                    {{match.HomeTeam}}
+                    <br /><br />
+                    {{match.AwayTeam}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- First period score. -->
+            <ng-container matColumnDef="FirstPeriodScore">
+                <mat-cell *matCellDef="let match">
+                    {{match.FirstPeriodHomeTeamScore}}
+                    <br /><br />
+                    {{match.FirstPeriodAwayTeamScore}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Second period score. -->
+            <ng-container matColumnDef="SecondPeriodScore">
+                <mat-cell *matCellDef="let match">
+                    {{match.SecondPeriodHomeTeamScore}}
+                    <br /><br />
+                    {{match.SecondPeriodAwayTeamScore}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Third period score. -->
+            <ng-container matColumnDef="ThirdPeriodScore">
+                <mat-cell *matCellDef="let match">
+                    {{match.ThirdPeriodHomeTeamScore}}
+                    <br /><br />
+                    {{match.ThirdPeriodAwayTeamScore}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Final score. -->
+            <ng-container matColumnDef="FinalScore">
+                <mat-cell *matCellDef="let match">
+                    {{match.FinalHomeTeamScore > 0 ? match.FinalHomeTeamScore : '-'}}
+                    <br /><br />
+                    {{match.FinalAwayTeamScore > 0 ? match.FinalAwayTeamScore : '-'}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- This will show up while loading data. -->
+            <ng-container matColumnDef="loading">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                    Loading data...
+                </mat-footer-cell>
+            </ng-container>
+
+            <!-- This will show up if there are no matches on today's date. -->
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                    There are no matches on this day.
+                </mat-footer-cell>
+            </ng-container>
+
+            <!-- Initialization of table rows. -->
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': listData != null}"></mat-footer-row>
+
+            <mat-footer-row *matFooterRowDef="['noData']"
+                [ngClass]="{'hide': !(listData != null && listData.data.length == 0)}"></mat-footer-row>
+        </mat-table>
+
+        <!-- Pagination. -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

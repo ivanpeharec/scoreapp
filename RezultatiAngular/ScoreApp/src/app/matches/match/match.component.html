@@ -1,119 +1,244 @@
-<!-- Current component path. -->
-<nav aria-label="breadcrumb" *ngIf="loaded">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a routerLink="/">Home</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a routerLink="/matches/all">Matches</a>
-        </li>
-        <li *ngIf="match.ID != 0" class="breadcrumb-item">Edit match</li>
-        <li *ngIf="match.ID === 0" class="breadcrumb-item">New match</li>
-    </ol>
-</nav>
-
 <!-- Match input / edit form. -->
 <div class="row">
     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="mainTitle">
+            <span *ngIf="match.ID == 0">New match</span>
+            <span *ngIf="match.ID != 0">Edit match</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <div class="formControlsContainer">
-            <form #form="ngForm" [formGroup]="service.form" (submit)="onSubmit(form)">
-                <!-- Match ID. -->
-                <input type="hidden" formControlName="ID">
+            <mat-horizontal-stepper linear #stepper>
+                <mat-step label="Basic information" [stepControl]="service.matchForm">
+                    <ng-template matStepperIcon="edit">
+                        <mat-icon>done</mat-icon>
+                    </ng-template>
 
-                <!-- Match date. -->
-                <mat-form-field class="datePickerContainer">
-                    <mat-label>Date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="Date">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                    <mat-error>Date has to be selected!</mat-error>
-                </mat-form-field>
+                    <form #form="ngForm" [formGroup]="service.matchForm">
+                        <!-- Match ID. -->
+                        <input type="hidden" formControlName="ID">
 
-                <!-- Match time. -->
-                <mat-form-field class="timePickerContainer">
-                    <mat-label>Time</mat-label>
-                    <mat-select formControlName="Time" [(ngModel)]="selectedTime">
-                        <mat-option *ngFor="let timeValue of timeList" [value]="timeValue">
-                            {{timeValue}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>Time has to be selected!</mat-error>
-                </mat-form-field>
+                        <!-- Match date. -->
+                        <mat-form-field class="datePickerContainer">
+                            <mat-label>Date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="Date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error>Date has to be selected!</mat-error>
+                        </mat-form-field>
 
-                <!-- Sport. -->
-                <mat-form-field>
-                    <mat-label>Sport</mat-label>
-                    <mat-select formControlName="SportID" [(ngModel)]="selectedSportID"
-                        (ngModelChange)="onSelectSport()">
-                        <mat-option *ngFor="let sport of sports" [value]="sport.ID">
-                            {{sport.Name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>Sport has to be selected!</mat-error>
-                </mat-form-field>
+                        <!-- Match time. -->
+                        <mat-form-field class="timePickerContainer">
+                            <mat-label>Time</mat-label>
+                            <mat-select formControlName="Time">
+                                <mat-option *ngFor="let timeValue of timeList" [value]="timeValue">
+                                    {{timeValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>Time has to be selected!</mat-error>
+                        </mat-form-field>
 
-                <!-- Competition. -->
-                <mat-form-field>
-                    <mat-label>Competition</mat-label>
-                    <mat-select formControlName="CompetitionID" [(ngModel)]="selectedCompetitionID"
-                        (ngModelChange)="onSelectCompetition()">
-                        <mat-option *ngFor="let competition of competitions" [value]="competition.ID">
-                            {{competition.Name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>Competition has to be selected!</mat-error>
-                </mat-form-field>
+                        <!-- Sport. -->
+                        <mat-form-field>
+                            <mat-label>Sport</mat-label>
+                            <mat-select formControlName="SportID">
+                                <mat-option *ngFor="let sport of sports" [value]="sport.ID">
+                                    {{sport.Name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>Sport has to be selected!</mat-error>
+                        </mat-form-field>
 
-                <!-- Home team. -->
-                <mat-form-field>
-                    <mat-label>Home team</mat-label>
-                    <mat-select formControlName="HomeTeamID" [(ngModel)]="selectedHomeTeamID">
-                        <mat-option *ngFor="let hteam of teams" [value]="hteam.ID">
-                            {{hteam.Name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>Home team has to be selected!</mat-error>
-                </mat-form-field>
+                        <!-- Competition. -->
+                        <mat-form-field>
+                            <mat-label>Competition</mat-label>
+                            <mat-select formControlName="CompetitionID">
+                                <mat-option *ngFor="let competition of competitions" [value]="competition.ID">
+                                    {{competition.Name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>Competition has to be selected!</mat-error>
+                        </mat-form-field>
 
-                <!-- Away team. -->
-                <mat-form-field>
-                    <mat-label>Away team</mat-label>
-                    <mat-select formControlName="AwayTeamID" [(ngModel)]="selectedAwayTeamID">
-                        <mat-option *ngFor="let ateam of teams" [value]="ateam.ID">
-                            {{ateam.Name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>Away team has to be selected!</mat-error>
-                </mat-form-field>
+                        <!-- Home team. -->
+                        <mat-form-field>
+                            <mat-label>Home team</mat-label>
+                            <mat-select formControlName="HomeTeamID">
+                                <mat-option *ngFor="let hteam of teams" [value]="hteam.ID">
+                                    {{hteam.Name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>Home team has to be selected!</mat-error>
+                        </mat-form-field>
 
-                <!-- Half time home team score. -->
-                <mat-form-field>
-                    <mat-label>Half time home team score</mat-label>
-                    <input matInput formControlName="HalfTimeHomeTeamScore">
-                </mat-form-field>
+                        <!-- Away team. -->
+                        <mat-form-field>
+                            <mat-label>Away team</mat-label>
+                            <mat-select formControlName="AwayTeamID">
+                                <mat-option *ngFor="let ateam of teams" [value]="ateam.ID">
+                                    {{ateam.Name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>Away team has to be selected!</mat-error>
+                        </mat-form-field>
+                    </form>
 
-                <!-- Half time away team score. -->
-                <mat-form-field>
-                    <mat-label>Half time away team score</mat-label>
-                    <input matInput formControlName="HalfTimeAwayTeamScore">
-                </mat-form-field>
+                    <!-- Next step button. -->
+                    <button mat-button matStepperNext class="nextPrevButton">Next</button>
+                </mat-step>
 
-                <!-- Home team score. -->
-                <mat-form-field>
-                    <mat-label>Home team score</mat-label>
-                    <input matInput formControlName="HomeTeamScore">
-                </mat-form-field>
+                <mat-step label="Match details"
+                    *ngIf="service.matchForm.get('SportID').value == 1 || service.matchForm.get('SportID').value == null">
+                    <form #footballForm="ngForm" [formGroup]="service.footballMatchComponentsForm"
+                        *ngIf="service.matchForm.get('SportID').value == 1">
+                        <!-- Match ID. -->
+                        <input type="hidden" formControlName="MatchID">
 
-                <!-- Away team score. -->
-                <mat-form-field>
-                    <mat-label>Away team score</mat-label>
-                    <input matInput formControlName="AwayTeamScore">
-                </mat-form-field>
+                        <!-- Half time home team score. -->
+                        <mat-form-field>
+                            <mat-label>Half time home team score</mat-label>
+                            <input matInput formControlName="HalfTimeHomeTeamScore" type="number">
+                        </mat-form-field>
 
-                <!-- Form submit button. -->
-                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid"
-                    class="submitButton">Submit</button>
-            </form>
+                        <!-- Half time away team score. -->
+                        <mat-form-field>
+                            <mat-label>Half time away team score</mat-label>
+                            <input matInput formControlName="HalfTimeAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Home team score. -->
+                        <mat-form-field>
+                            <mat-label>Home team score</mat-label>
+                            <input matInput formControlName="HomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Away team score. -->
+                        <mat-form-field>
+                            <mat-label>Away team score</mat-label>
+                            <input matInput formControlName="AwayTeamScore" type="number">
+                        </mat-form-field>
+                    </form>
+
+                    <!-- Previous step button. -->
+                    <button mat-button matStepperPrevious class="nextPrevButton btnPrev">Back</button>
+
+                    <!-- Form submit button. -->
+                    <button mat-button type="submit"
+                        [disabled]="(!service.matchForm.valid || !service.footballMatchComponentsForm.valid) || service.matchForm.pristine && service.footballMatchComponentsForm.pristine"
+                        class="submitButton" (click)="submitForms()">Submit</button>
+                </mat-step>
+
+                <mat-step label="Match details" *ngIf="service.matchForm.get('SportID').value == 2">
+                    <form #basketballForm="ngForm" [formGroup]="service.basketballMatchComponentsForm">
+                        <!-- Match ID. -->
+                        <input type="hidden" formControlName="MatchID">
+
+                        <!-- First quarter home team score. -->
+                        <mat-form-field>
+                            <mat-label>First quarter home team score</mat-label>
+                            <input matInput formControlName="FirstQuarterHomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- First quarter away team score. -->
+                        <mat-form-field>
+                            <mat-label>First quarter away team score</mat-label>
+                            <input matInput formControlName="FirstQuarterAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Second quarter home team score. -->
+                        <mat-form-field>
+                            <mat-label>Second quarter home team score</mat-label>
+                            <input matInput formControlName="SecondQuarterHomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Second quarter away team score. -->
+                        <mat-form-field>
+                            <mat-label>Second quarter away team score</mat-label>
+                            <input matInput formControlName="SecondQuarterAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Third quarter home team score. -->
+                        <mat-form-field>
+                            <mat-label>Third quarter home team score</mat-label>
+                            <input matInput formControlName="ThirdQuarterHomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Second quarter away team score. -->
+                        <mat-form-field>
+                            <mat-label>Third quarter away team score</mat-label>
+                            <input matInput formControlName="ThirdQuarterAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Fourth quarter home team score. -->
+                        <mat-form-field>
+                            <mat-label>Fourth quarter home team score</mat-label>
+                            <input matInput formControlName="FourthQuarterHomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Fourth quarter away team score. -->
+                        <mat-form-field>
+                            <mat-label>Fourth quarter away team score</mat-label>
+                            <input matInput formControlName="FourthQuarterAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Form submit button. -->
+                        <button mat-flat-button color="primary" type="submit"
+                            [disabled]="(!service.matchForm.valid || !service.basketballMatchComponentsForm.valid) || service.matchForm.pristine && service.basketballMatchComponentsForm.pristine"
+                            class="btnSubmit" (click)="submitForms()">Submit</button>
+                    </form>
+                </mat-step>
+
+                <mat-step label="Match details" *ngIf="service.matchForm.get('SportID').value == 5">
+                    <form #iceHockeyForm="ngForm" [formGroup]="service.iceHockeyMatchComponentsForm">
+                        <!-- Match ID. -->
+                        <input type="hidden" formControlName="MatchID">
+
+                        <!-- First period home team score. -->
+                        <mat-form-field>
+                            <mat-label>First period home team score</mat-label>
+                            <input matInput formControlName="FirstPeriodHomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- First period away team score. -->
+                        <mat-form-field>
+                            <mat-label>First period away team score</mat-label>
+                            <input matInput formControlName="FirstPeriodAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Second period home team score. -->
+                        <mat-form-field>
+                            <mat-label>Second period home team score</mat-label>
+                            <input matInput formControlName="SecondPeriodHomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Second period away team score. -->
+                        <mat-form-field>
+                            <mat-label>Second period away team score</mat-label>
+                            <input matInput formControlName="SecondPeriodAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Third period home team score. -->
+                        <mat-form-field>
+                            <mat-label>Third period home team score</mat-label>
+                            <input matInput formControlName="ThirdPeriodHomeTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Second period away team score. -->
+                        <mat-form-field>
+                            <mat-label>Third period away team score</mat-label>
+                            <input matInput formControlName="ThirdPeriodAwayTeamScore" type="number">
+                        </mat-form-field>
+
+                        <!-- Form submit button. -->
+                        <button mat-flat-button color="primary" type="submit"
+                            [disabled]="(!service.matchForm.valid || !service.iceHockeyMatchComponentsForm.valid) || service.matchForm.pristine && service.iceHockeyMatchComponentsForm.pristine"
+                            class="btnSubmit" (click)="submitForms()">Submit</button>
+                    </form>
+                </mat-step>
+            </mat-horizontal-stepper>
         </div>
     </div>
 </div>

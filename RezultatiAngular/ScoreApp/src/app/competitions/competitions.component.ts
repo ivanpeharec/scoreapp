@@ -3,11 +3,12 @@ import { CompetitionService } from '../shared/competition.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../shared/user.service';
 import { Competition } from '../shared/competition.model';
-import { Observable, combineLatest } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { startWith, map } from 'rxjs/operators';
 import { DialogService } from '../shared/dialog.service';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { concatMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-competitions',
@@ -24,8 +25,8 @@ export class CompetitionsComponent implements OnInit {
   listData: MatTableDataSource<Competition>;
 
   displayedColumns: string[];
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
 
   ngOnInit() {
@@ -35,7 +36,7 @@ export class CompetitionsComponent implements OnInit {
     else {
       this.displayedColumns = ['Name', 'ChildrenEntityList'];
     }
-    
+
     this.service.refreshList();
 
     this.service.getCompetitions()
@@ -63,25 +64,31 @@ export class CompetitionsComponent implements OnInit {
   }
 
   onDelete(competitionID) {
-    // TODO: Ovo napisati bez 2 subscribea jedan u drugome.
     this.dialogService
       .openConfirmDialog('Are you sure you want to delete this competition?')
       .afterClosed()
-      .subscribe(
-        res => {
-          if (res) {
-            this.service.deleteCompetition(competitionID).subscribe(
-              res => {
-                const index = this.listData.data.findIndex(obj => obj.ID == competitionID);
-                this.listData.data.splice(index, 1);
-                this.listData._updateChangeSubscription();
-                this.toastr.success('Deleted successfully');
-              },
-              err => {
-                console.log(err);
-              }
-            )
+      .pipe(
+        concatMap(
+          res => {
+            if (res) {
+              return this.service.deleteCompetition(competitionID);
+            }
+
+            return of(res);
           }
+        )
+      ).subscribe(
+        deleted => {
+          if (deleted) {
+            const index = this.listData.data.findIndex(obj => obj.ID == competitionID);
+            this.listData.data.splice(index, 1);
+            this.listData._updateChangeSubscription();
+            this.toastr.success('Deleted successfully!');
+          }
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('Deleting failed!');
         }
       );
   }

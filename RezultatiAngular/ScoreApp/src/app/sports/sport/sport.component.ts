@@ -19,19 +19,22 @@ export class SportComponent implements OnInit {
 
   loaded = false;
 
-  constructor(private service: SportService,
+  constructor(public service: SportService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router) {
 
     this.service.form.reset();
 
-    route.params.subscribe(p => {
-      this.sport.ID = +p['id'];
-    }, err => {
-      if (err.status == 404)
-        this.router.navigate(['/sports']);
-    });
+    this.route.params
+      .subscribe(
+        p => {
+          this.sport.ID = +p['id'];
+        },
+        err => {
+          if (err.status == 404)
+            this.router.navigate(['/sports']);
+        });
   }
 
   ngOnInit() {

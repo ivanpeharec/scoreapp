@@ -1,12 +1,3 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a routerLink="/">Home</a>
-        </li>
-        <li class="breadcrumb-item">Teams</li>
-    </ol>
-</nav>
-
 <div class="searchDiv marginBottom">
     <mat-form-field class="searchFormField" floatLabel="never">
         <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
@@ -29,7 +20,7 @@
                     <span class="inlineBlockAlignMiddle" width="30px">
                         <img [src]="imageUrl(team.ID)" style="max-width: 30px;" *ngIf="imageUrl(team.ID) != null" />
                     </span>
-                    &nbsp;&nbsp;{{ team.Name }}
+                    &nbsp;&nbsp;{{team.Name}}
                 </mat-cell>
             </ng-container>
 

@@ -3,11 +3,12 @@ import { SportService } from 'src/app/shared/sport.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../shared/user.service';
 import { Sport } from '../shared/sport.model';
-import { Observable, combineLatest } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { startWith, map } from 'rxjs/operators';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { Observable, of } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from '../shared/dialog.service';
+import { concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sports',
@@ -16,7 +17,7 @@ import { DialogService } from '../shared/dialog.service';
 })
 export class SportsComponent implements OnInit {
 
-  constructor(private service: SportService,
+  constructor(public service: SportService,
     private toastr: ToastrService,
     private userService: UserService,
     private dialogService: DialogService) { }
@@ -25,8 +26,8 @@ export class SportsComponent implements OnInit {
   listData: MatTableDataSource<Sport>;
 
   displayedColumns: string[];
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
 
   ngOnInit() {
@@ -36,7 +37,7 @@ export class SportsComponent implements OnInit {
     else {
       this.displayedColumns = ['Name', 'ChildrenEntityList'];
     }
-    
+
     this.service.refreshList();
 
     this.service.getSports()
@@ -63,27 +64,33 @@ export class SportsComponent implements OnInit {
   }
 
   onDelete(sportID) {
-    // TODO: Ovo napisati bez 2 subscribea jedan u drugome.
     this.dialogService
       .openConfirmDialog('Are you sure you want to delete this sport?')
       .afterClosed()
-      .subscribe(
-        res => {
-          if (res) {
-            this.service.deleteSport(sportID).subscribe(
-              res => {
-                const index = this.listData.data.findIndex(obj => obj.ID == sportID);
-                this.listData.data.splice(index, 1);
-                this.listData._updateChangeSubscription();
-                this.toastr.success('Deleted successfully');
-              },
-              err => {
-                console.log(err);
-              }
-            )
+      .pipe(
+        concatMap(
+          res => {
+            if (res) {
+              return this.service.deleteSport(sportID);
+            }
+
+            return of(res);
           }
+        )
+      ).subscribe(
+        deleted => {
+          if (deleted) {
+            const index = this.listData.data.findIndex(obj => obj.ID == sportID);
+            this.listData.data.splice(index, 1);
+            this.listData._updateChangeSubscription();
+            this.toastr.success('Deleted successfully!');
+          }
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('Deleting failed!');
         }
-      );
+      )
   }
 
   onSearchClear() {

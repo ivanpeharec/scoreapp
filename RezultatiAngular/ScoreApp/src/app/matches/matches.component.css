@@ -61,41 +61,33 @@ table
 
 .mat-column-HomeTeam 
 {
-    flex: 0 0 27%;
+    flex: 0 0 33%;
     justify-content: flex-end !important;
 }
 
 .mat-column-AwayTeam 
 {
-    flex: 0 0 27%;
+    flex: 0 0 33%;
     justify-content: flex-start !important;
-}
-
-.mat-column-HomeTeamScore 
-{
-    flex: 0 0 7%;
-    justify-content: flex-end !important;
 }
 
 .mat-column-DashCell 
 {
-    flex: 0 0 2%;
+    flex: 0 0 4%;
     justify-content: center;
 }
 
-.mat-column-AwayTeamScore 
-{
-    flex: 0 0 7%;
-    justify-content: flex-start !important;
-}
-
-.mat-column-HalfTimeScore 
+.mat-column-EditOrDelete
 {
     flex: 0 0 15%;
     justify-content: flex-end !important;
 }
 
-.halfTimeScore 
+.iconFontSize
 {
-    color: #91908d;
+    font-size: 19px !important;
+}
+
+.emptySpace {
+    width: 20px;
 }

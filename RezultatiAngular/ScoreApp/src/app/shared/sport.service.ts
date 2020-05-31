@@ -17,6 +17,19 @@ export class SportService {
 
   constructor(private http: HttpClient) { }
 
+  getSport(id: number) {
+    return this.http.get(this.rootURL + id);
+  } 
+
+  // Gets the sport ID of specific match.
+  getSportByMatchID(matchID: number) {
+    return this.http.get(this.rootURL + 'byMatchID/' + matchID);
+  } 
+  
+  getSports() {
+    return this.http.get<Sport[]>(this.rootURL);
+  }
+
   postSport() {
     let body = {
       Name: this.form.value.Name
@@ -33,14 +46,6 @@ export class SportService {
     }
 
     return this.http.put(this.rootURL + sportID, body);
-  }
-
-  getSport(id: number) {
-    return this.http.get(this.rootURL + id);
-  } 
-  
-  getSports() {
-    return this.http.get<Sport[]>(this.rootURL);
   }
 
   deleteSport(id: number) {

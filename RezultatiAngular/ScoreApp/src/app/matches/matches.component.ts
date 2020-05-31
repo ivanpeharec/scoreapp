@@ -5,7 +5,11 @@ import { TeamService } from '../shared/team.service';
 import { UserService } from '../shared/user.service';
 import { DialogService } from '../shared/dialog.service';
 import { Match } from '../shared/match.model';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { concatMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-matches',
@@ -30,9 +34,9 @@ export class MatchesComponent implements OnInit {
   currentSelectedDateString: string;
 
   // Table variables.
-  displayedColumns: string[] = ['Time', 'HomeTeam', 'HomeTeamScore', 'DashCell', 'AwayTeamScore', 'AwayTeam', 'HalfTimeScore'];
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  displayedColumns: string[] = ['Time', 'HomeTeam', 'DashCell', 'AwayTeam', 'EditOrDelete'];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
 
   ngOnInit() {
@@ -52,12 +56,10 @@ export class MatchesComponent implements OnInit {
             list => {
               let array = list.map(item => {
                 return {
+                  ID: item.ID,
                   Time: ("0" + new Date(item.Date).getHours()).slice(-2) + ':' + ("0" + new Date(item.Date).getMinutes()).slice(-2),
                   HomeTeam: this.getTeamName(item.HomeTeamID),
-                  AwayTeam: this.getTeamName(item.AwayTeamID),
-                  HomeTeamScore: item.HomeTeamScore == null ? '' : item.HomeTeamScore,
-                  AwayTeamScore: item.AwayTeamScore == null ? '' : item.AwayTeamScore,
-                  HalfTimeScore: (item.HalfTimeHomeTeamScore == null ? '' : item.HalfTimeHomeTeamScore).toString() + ' - ' + (item.HalfTimeAwayTeamScore == null ? '' : item.HalfTimeAwayTeamScore).toString()
+                  AwayTeam: this.getTeamName(item.AwayTeamID)
                 };
               });
 
@@ -73,24 +75,32 @@ export class MatchesComponent implements OnInit {
     return this.teams.find(item => item.ID === id).Name;
   }
 
-  onDelete(ID: number) {
-    // TODO: Ovo napisati bez 2 subscribea jedan u drugome.
+  onDelete(matchID) {
     this.dialogService
       .openConfirmDialog('Are you sure you want to delete this match?')
       .afterClosed()
-      .subscribe(
-        res => {
-          if (res) {
-            this.service.deleteMatch(ID).subscribe(
-              res => {
-                this.toastr.success('Deleted successfully');
-                this.service.refreshList();
-              },
-              err => {
-                console.log(err);
-              }
-            )
+      .pipe(
+        concatMap(
+          res => {
+            if (res) {
+              return this.service.deleteMatch(matchID);
+            }
+
+            return of(res);
           }
+        )
+      ).subscribe(
+        deleted => {
+          if (deleted) {
+            const index = this.listData.data.findIndex(obj => obj.ID == matchID);
+            this.listData.data.splice(index, 1);
+            this.listData._updateChangeSubscription();
+            this.toastr.success('Deleted successfully!');
+          }
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('Deleting failed!');
         }
       );
   }
@@ -131,12 +141,10 @@ export class MatchesComponent implements OnInit {
         list => {
           let array = list.map(item => {
             return {
+              ID: item.ID,
               Time: ("0" + new Date(item.Date).getHours()).slice(-2) + ':' + ("0" + new Date(item.Date).getMinutes()).slice(-2),
               HomeTeam: this.getTeamName(item.HomeTeamID),
-              AwayTeam: this.getTeamName(item.AwayTeamID),
-              HomeTeamScore: item.HomeTeamScore == null ? '' : item.HomeTeamScore,
-              AwayTeamScore: item.AwayTeamScore == null ? '' : item.AwayTeamScore,
-              HalfTimeScore: (item.HalfTimeHomeTeamScore == null ? '' : item.HalfTimeHomeTeamScore).toString() + ' - ' + (item.HalfTimeAwayTeamScore == null ? '' : item.HalfTimeAwayTeamScore).toString()
+              AwayTeam: this.getTeamName(item.AwayTeamID)
             };
           });
 

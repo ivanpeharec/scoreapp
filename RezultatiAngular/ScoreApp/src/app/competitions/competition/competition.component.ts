@@ -23,7 +23,7 @@ export class CompetitionComponent implements OnInit {
   loaded = false;
   sports: Sport[];
 
-  constructor(private service: CompetitionService,
+  constructor(public service: CompetitionService,
     private sportService: SportService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -31,12 +31,15 @@ export class CompetitionComponent implements OnInit {
 
     this.service.form.reset();
 
-    route.params.subscribe(p => {
-      this.competition.ID = +p['id'];
-    }, err => {
-      if (err.status == 404)
-        this.router.navigate(['/competitions']);
-    });
+    this.route.params
+      .subscribe(
+        p => {
+          this.competition.ID = +p['id'];
+        },
+        err => {
+          if (err.status == 404)
+            this.router.navigate(['/competitions']);
+        });
   }
 
   ngOnInit() {

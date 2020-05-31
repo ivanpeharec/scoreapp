@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Team } from './team.model';
 import { HttpClient } from '@angular/common/http';
 import { Attachment } from './attachment.model';
-import { Observable } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Injectable({

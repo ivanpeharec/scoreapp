@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Castle.Core.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ namespace RezultatiAngular.Models
         public DbSet<Sport> Sports { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Match> Matches { get; set; }
+        public DbSet<FootballMatchComponents> FootballMatchComponents { get; set; }
+        public DbSet<BasketballMatchComponents> BasketballMatchComponents { get; set; }
+        public DbSet<IceHockeyMatchComponents> IceHockeyMatchComponents { get; set; }
         public DbSet<Competition> Competitions { get; set; }
         public DbSet<CompetitionTeam> CompetitionTeams { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
@@ -55,6 +59,12 @@ namespace RezultatiAngular.Models
             modelBuilder.Entity<Sport>().HasData(new Sport { ID = 1, Name = "Football" });
             modelBuilder.Entity<Sport>().HasData(new Sport { ID = 2, Name = "Basketball" });
             modelBuilder.Entity<Sport>().HasData(new Sport { ID = 3, Name = "Tennis" });
+            modelBuilder.Entity<Sport>().HasData(new Sport { ID = 4, Name = "Volleyball" });
+            modelBuilder.Entity<Sport>().HasData(new Sport { ID = 5, Name = "Ice hockey" });
+            modelBuilder.Entity<Sport>().HasData(new Sport { ID = 6, Name = "American football" });
+            modelBuilder.Entity<Sport>().HasData(new Sport { ID = 7, Name = "Baseball" });
+            modelBuilder.Entity<Sport>().HasData(new Sport { ID = 8, Name = "Handball" });
+            modelBuilder.Entity<Sport>().HasData(new Sport { ID = 9, Name = "Water polo" });
 
             // Clubs.
             modelBuilder.Entity<Team>().HasData(new Team { ID = 1, Name = "FC Barcelona", SportID = 1 });

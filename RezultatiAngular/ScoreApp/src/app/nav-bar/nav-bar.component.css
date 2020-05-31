@@ -4,31 +4,41 @@
 }
 
 .navbar-brand {
-    padding: 0;
+    padding: 4px 0 4px 10px;
 }
 
-.dropdown-menu{
+.logo {
+    width: 45px;
+    height: 40px;
+}
+
+.dropdown-menu {
     background-color: #001f3f !important;
     border: none;
+    margin-top: 0;
+    border-radius: unset;
 }
 
-.dropdown-item{
+.dropdown-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
     color: white;
     font-weight: bold;
 }
 
 .dropdown-item:hover {
-    color: #ff0000;
-    background-color: initial;
+    background-color: #003873;
 }
 
-.nav-link{
+.nav-link {
     color: white !important;
     font-weight: bold !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
 }
 
 .firstNavbar .nav-link:hover {
-    color: #ff0000 !important;
+    background-color: #003873;
 }
 
 .secondNavbar .nav-link:hover {
@@ -41,8 +51,12 @@ button {
 }
 
 .active {
-    background-color: #0d0e0f !important;
+    background-color: #0d0e0f;
     color: white !important;
+}
+
+.dropdown-item.active:focus {
+    background-color: #003873;
 }
 
 .showOnlyOnMobile
@@ -50,15 +64,31 @@ button {
     display: none;
 }
 
+
+.authenticationButton 
+{
+    text-align: left;
+}
+
 .secondNavbar
 {
-    margin-top: 50px;
+    margin-top: 50px !important;
     background-color: #001a33 !important;
 }
 
 .secondNavbarListItem a
 {
     padding: 12px !important;
+}
+
+.authenticationButton:focus {
+    background-color: #003873;
+    outline: none;
+}
+
+.dropdown-item:focus {
+    background-color: #003873;
+    outline: none;
 }
 
 @media screen and (max-width: 576px) {
@@ -68,16 +98,44 @@ button {
     }
 }
 
+@media screen and (min-width: 992px) 
+{   
+    .navbar-nav li #navbardrop {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .authenticationButton 
+    {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
 @media screen and (max-width: 991px) 
-{
+{   
     .secondNavbar
     {
         display: none;
-        margin-top: 50px;
+    }
+
+    .logoutNav 
+    {
+        padding-bottom: 10px;
     }
     
     .showOnlyOnMobile 
     {
         display: block;
+    }
+
+    .authenticationButton 
+    {
+        width: 100%;
+    }
+
+    .dropdown-item
+    {
+        padding-left: 30px;
     }
 }

@@ -19,24 +19,25 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('token') != null)
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/');
   }
 
   onSubmit(form: NgForm) {
     this.userService.login(form.value).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.token);
-        this.userService.getUserProfile().subscribe(
-          res => {
-            this.userService.userDetails = res;
-            this.toastr.success('Login successful.', 'Hello '
-              + this.userService.userDetails.UserName + '!');
-            this.userService.isAuthenticated = true;
-          },
-          err => {
-            console.log(err);
-          });
-        this.router.navigateByUrl('/home');
+        this.userService.getUserProfile()
+          .subscribe(
+            res => {
+              this.userService.userDetails = res;
+              this.toastr.success('Login successful.', 'Hello '
+                + this.userService.userDetails.UserName + '!');
+              this.userService.isAuthenticated = true;
+            },
+            err => {
+              console.log(err);
+            });
+        this.router.navigateByUrl('/');
       },
       err => {
         if (err.status == 400) {

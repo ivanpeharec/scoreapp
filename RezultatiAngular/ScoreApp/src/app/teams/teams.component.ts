@@ -3,9 +3,12 @@ import { TeamService } from '../shared/team.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../shared/user.service';
 import { Team } from '../shared/team.model';
-import { Observable } from 'rxjs';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from '../shared/dialog.service';
+import { concatMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-teams',
@@ -15,7 +18,7 @@ import { DialogService } from '../shared/dialog.service';
 
 export class TeamsComponent implements OnInit {
 
-  constructor(private service: TeamService,
+  constructor(public service: TeamService,
     private userService: UserService,
     private toastr: ToastrService,
     private dialogService: DialogService) {
@@ -25,8 +28,8 @@ export class TeamsComponent implements OnInit {
   listData: MatTableDataSource<Team>;
 
   displayedColumns: string[];
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
 
   ngOnInit() {
@@ -66,25 +69,33 @@ export class TeamsComponent implements OnInit {
   }
 
   onDelete(teamID) {
-    // TODO: Ovo napisati bez 2 subscribea jedan u drugome.
     this.dialogService
       .openConfirmDialog('Are you sure you want to delete this team?')
       .afterClosed()
-      .subscribe(
-        res => {
-          this.service.deleteTeam(teamID).subscribe(
-            res => {
-              const index = this.listData.data.findIndex(obj => obj.ID == teamID);
-              this.listData.data.splice(index, 1);
-              this.listData._updateChangeSubscription();
-              this.toastr.success('Deleted successfully');
-            },
-            err => {
-              console.log(err);
+      .pipe(
+        concatMap(
+          res => {
+            if (res) {
+              return this.service.deleteTeam(teamID);
             }
-          )
+
+            return of(res);
+          }
+        )
+      ).subscribe(
+        deleted => {
+          if (deleted) {
+            const index = this.listData.data.findIndex(obj => obj.ID == teamID);
+            this.listData.data.splice(index, 1);
+            this.listData._updateChangeSubscription();
+            this.toastr.success('Deleted successfully!');
+          }
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('Deleting failed!');
         }
-      );
+      )
   }
 
   imageUrl(teamId: number) {

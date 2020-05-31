@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '../shared/team.service';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Team } from '../shared/team.model';
 import { UserService } from '../shared/user.service';
 import { Competition } from '../shared/competition.model';
@@ -23,8 +25,8 @@ export class TeamsPerCompetitionComponent implements OnInit {
   listData: MatTableDataSource<Team>;
 
   displayedColumns: string[];
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
 
   constructor(private route: ActivatedRoute,

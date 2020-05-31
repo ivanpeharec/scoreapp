@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgTempusdominusBootstrapModule } from 'ngx-tempusdominus-bootstrap';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -29,12 +28,11 @@ import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { UserService } from './shared/user.service';
 import { LoginComponent } from './user/login/login.component';
-import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { MaterialModule } from './material/material.module';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MAT_DATE_LOCALE } from '@angular/material';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TeamsPerCompetitionComponent } from './teams-per-competition/teams-per-competition.component';
@@ -58,7 +56,6 @@ import { CompetitionsPerSportComponent } from './competitions-per-sport/competit
     UserComponent,
     RegistrationComponent,
     LoginComponent,
-    HomeComponent,
     ForbiddenComponent,
     MatConfirmDialogComponent,
     NotFoundComponent,

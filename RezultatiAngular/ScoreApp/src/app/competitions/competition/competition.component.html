@@ -1,13 +1,13 @@
-<nav aria-label="breadcrumb" *ngIf="loaded">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/competitions">Competitions</a></li>
-        <li *ngIf="competition.ID != 0" class="breadcrumb-item">Edit competition</li>
-        <li *ngIf="competition.ID === 0" class="breadcrumb-item">New competition</li>
-    </ol>
-</nav>
-
 <!-- Competition input / edit form. -->
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="mainTitle">
+            <span *ngIf="competition.ID == 0">New competition</span>
+            <span *ngIf="competition.ID != 0">Edit competition</span>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <div class="formControlsContainer">
@@ -35,7 +35,7 @@
                 </mat-form-field>
 
                 <!-- Form submit button. -->
-                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid"
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid || service.form.pristine"
                     class="submitButton">Submit</button>
             </form>
         </div>

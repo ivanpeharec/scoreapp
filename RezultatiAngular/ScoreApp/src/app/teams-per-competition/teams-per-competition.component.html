@@ -1,17 +1,5 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a routerLink="/">Home</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a routerLink="/teams">Teams</a>
-        </li>
-        <li class="breadcrumb-item">{{ competition.Name }}</li>
-    </ol>
-</nav>
-
-<div class="entityNameTitle">
-    {{ competition.Name }}
+<div class="mainTitle">
+    {{competition.Name}} teams
 </div>
 
 <div class="searchDiv marginBottom">
@@ -36,7 +24,7 @@
                     <span class="inlineBlockAlignMiddle" width="30px">
                         <img [src]="imageUrl(team.ID)" style="max-width: 30px;" *ngIf="imageUrl(team.ID) != null" />
                     </span>
-                    &nbsp;&nbsp;{{ team.Name }}
+                    &nbsp;&nbsp;{{team.Name}}
                 </mat-cell>
             </ng-container>
 

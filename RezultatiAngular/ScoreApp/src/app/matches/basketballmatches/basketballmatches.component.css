@@ -1,4 +1,104 @@
-table, thead {
-    background-color: #001f3f; 
-    color: #fff;
+.dateSwitchButton
+{
+    background-color: #001f3f;
+    border: 1px solid #001f3f;
+    height: 25px;
+}
+
+.dateSwitchButton:focus
+{
+    outline: none;
+}
+
+.dateSwitchButton:hover, .dateSwitchButton:active
+{
+    background-color: #001a33;
+    border: 1px solid #001a33;
+}
+
+.dateSwitchButton i 
+{
+    font-size: 18px;
+}
+
+.currentDateDiv
+{
+    min-width: 80px; 
+    display: inline-block; 
+    text-align: center;
+    background-color: #001f3f;
+    color: white;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+}
+
+.dateContainer
+{
+    text-align: right;
+}
+
+.dateContainer *
+{
+    vertical-align: bottom;
+}
+
+table 
+{
+    width: 100%;
+    display: initial;
+}
+
+.borderBottom 
+{
+    border-bottom: 1px solid black;
+}
+
+.mat-column-Time 
+{
+    flex: 0 0 90px;
+}
+
+.mat-column-TeamNames 
+{
+    justify-content: flex-start !important;
+}
+
+.mat-column-FirstQuarterScore 
+{
+    flex: 0 0 50px;
+    justify-content: flex-end !important;
+    text-align: center;
+    color: #91908d;
+}
+
+.mat-column-SecondQuarterScore 
+{
+    flex: 0 0 50px;
+    justify-content: flex-end !important;
+    text-align: center;
+    color: #91908d;
+}
+
+.mat-column-ThirdQuarterScore 
+{
+    flex: 0 0 50px;
+    justify-content: flex-end !important;
+    text-align: center;
+    color: #91908d;
+}
+
+.mat-column-FourthQuarterScore 
+{
+    flex: 0 0 50px;
+    justify-content: flex-end !important;
+    text-align: center;
+    color: #91908d;
+}
+
+.mat-column-FinalScore 
+{
+    flex: 0 0 74px;
+    justify-content: flex-end !important;
+    text-align: center;
 }

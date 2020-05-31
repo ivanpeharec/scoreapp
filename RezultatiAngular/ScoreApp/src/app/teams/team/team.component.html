@@ -1,13 +1,13 @@
-<nav aria-label="breadcrumb" *ngIf="loadComponent">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/teams">Teams</a></li>
-        <li *ngIf="team.ID != 0" class="breadcrumb-item">Edit team</li>
-        <li *ngIf="team.ID === 0" class="breadcrumb-item">New team</li>
-    </ol>
-</nav>
-
 <!-- Team input / edit form. -->
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="mainTitle">
+            <span *ngIf="team.ID == 0">New team</span>
+            <span *ngIf="team.ID != 0">Edit team</span>
+        </div>
+    </div>
+</div>
+
 <div class="row" *ngIf="loadComponent">
     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <div class="formControlsContainer">
@@ -16,7 +16,7 @@
             <img [src]="image" class="mx-auto d-block" width="200px" *ngIf="imageLoaded">
 
             <!-- Title. -->
-            <div class="mainTitleContainer">TEAM DETAILS</div>
+            <div class="subtitle">TEAM DETAILS</div>
 
             <!-- Form. -->
             <form #form="ngForm" [formGroup]="service.form" (submit)="onSubmit(form)">
@@ -46,7 +46,7 @@
                 </mat-form-field>
 
                 <!-- Form submit button. -->
-                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid"
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.form.valid || service.form.pristine"
                     class="submitButton">Submit</button>
             </form>
         </div>
@@ -57,7 +57,7 @@
     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <div class="formControlsContainer borderTop">
             <!-- Title. -->
-            <div class="mainTitleContainer">TEAM LOGO</div>
+            <div class="subtitle">TEAM LOGO</div>
 
             <div class="imageUploadContainer">
                 <div class="custom-file">
@@ -81,7 +81,7 @@
     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <div class="formControlsContainer borderTop">
             <!-- Title. -->
-            <div class="mainTitleContainer">ADD TO COMPETITION</div>
+            <div class="subtitle">ADD TO COMPETITION</div>
 
             <form #competitionTeamForm="ngForm" [formGroup]="service.competitionTeamForm"
                 (submit)="onSubmitCompetitionTeam(competitionTeamForm)">
@@ -109,7 +109,7 @@
                 </div>
 
                 <!-- Form submit button. -->
-                <button mat-flat-button color="primary" type="submit" [disabled]="!service.competitionTeamForm.valid"
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.competitionTeamForm.valid || service.form.pristine"
                     class="submitButton">Submit</button>
             </form>
         </div>

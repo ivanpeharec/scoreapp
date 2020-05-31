@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Sport } from 'src/app/shared/sport.model';
 import { TeamService } from 'src/app/shared/team.service';
 import { SportService } from 'src/app/shared/sport.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +15,7 @@ import { Competition } from 'src/app/shared/competition.model';
 })
 export class TeamComponent implements OnInit {
 
-  @ViewChild('labelImport', { static: false })
+  @ViewChild('labelImport')
   labelImport: ElementRef;
 
   team = {
@@ -45,7 +44,7 @@ export class TeamComponent implements OnInit {
   fileUploaded = null;
   uploadedFile: string = null;
 
-  constructor(private service: TeamService,
+  constructor(public service: TeamService,
     private sportService: SportService,
     private competitionService: CompetitionService,
     private toastr: ToastrService,
@@ -55,27 +54,28 @@ export class TeamComponent implements OnInit {
     this.service.form.reset();
 
     // Gets the route parameters. 
-    route.params.subscribe(
-      p => {
-        if (+p['id'] > 0) {
-          // Save the team ID from the route parameters.
-          this.team.ID = +p['id'];
+    this.route.params
+      .subscribe(
+        p => {
+          if (+p['id'] > 0) {
+            // Save the team ID from the route parameters.
+            this.team.ID = +p['id'];
 
-          // Sets the TeamID of the "Add to competition" form to the current ID.
-          this.competitionTeam.TeamID = this.team.ID;
+            // Sets the TeamID of the "Add to competition" form to the current ID.
+            this.competitionTeam.TeamID = this.team.ID;
 
-          // Used to load HTML parts that should be shown only when the user is updating the team.
-          this.updateMode = true;
-        }
+            // Used to load HTML parts that should be shown only when the user is updating the team.
+            this.updateMode = true;
+          }
 
-        // Loading of the HTML code can begin.
-        this.loadComponent = true;
-      },
-      err => {
-        // Navigate to the not-found component.
-        if (err.status == 404)
-          this.router.navigate(['/not-found']);
-      });
+          // Loading of the HTML code can begin.
+          this.loadComponent = true;
+        },
+        err => {
+          // Navigate to the not-found component.
+          if (err.status == 404)
+            this.router.navigate(['/not-found']);
+        });
   }
 
   ngOnInit() {

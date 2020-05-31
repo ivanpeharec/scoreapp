@@ -24,11 +24,11 @@ namespace RezultatiAngular.Models
         /// <summary>
         /// Competition.
         /// </summary>
-        public Competition Competition { get; set; }
+        public virtual Competition Competition { get; set; }
 
         /// <summary>
         /// Team.
         /// </summary>
-        public Team Team { get; set; }
+        public virtual Team Team { get; set; }
     }
 }

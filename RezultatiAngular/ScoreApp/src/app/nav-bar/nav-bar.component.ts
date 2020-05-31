@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private router: Router, private service: UserService, private toastr: ToastrService) { }
+  constructor(private router: Router, public service: UserService, private toastr: ToastrService) { }
 
   ngOnInit() {
     if (localStorage.getItem('token') != null) {
@@ -21,6 +21,9 @@ export class NavBarComponent implements OnInit {
         },
         err => {
           console.log(err);
+        },
+        () => {
+          this.service.navbarLoaded = true;
         }
       );
     }
@@ -30,7 +33,7 @@ export class NavBarComponent implements OnInit {
     this.service.isAuthenticated = false;
     localStorage.removeItem('token');
     this.toastr.success('You have successfuly logged out.');
-    this.router.navigate(['/user/login']);
+    this.router.navigate(['/']);
     this.service.userDetails = false;
   }
 }

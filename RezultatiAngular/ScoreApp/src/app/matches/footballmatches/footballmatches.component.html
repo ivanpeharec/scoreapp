@@ -1,3 +1,12 @@
+<!-- Football match list. -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="mainTitle">
+            Football matches
+        </div>
+    </div>
+</div>
+
 <!-- Date picker. -->
 <div class="dateContainer">
     <!-- Day before the current one. -->
@@ -6,8 +15,8 @@
     </button>
 
     <!-- Current date. -->
-    <div class="currentDateDiv">{{ currentSelectedDateString }}</div>
-    
+    <div class="currentDateDiv">{{currentSelectedDateString}}</div>
+
     <!-- Day afther the current one. -->
     <button (click)="increaseDate()" class="dateSwitchButton">
         <i class="fas fa-arrow-right"></i>
@@ -31,20 +40,22 @@
         <mat-table [dataSource]="listData" class="listTable">
             <!-- Match time. -->
             <ng-container matColumnDef="Time">
-                <mat-cell *matCellDef="let match">{{ match.Time }}</mat-cell>
+                <mat-cell *matCellDef="let match">
+                    {{match.Time}}
+                </mat-cell>
             </ng-container>
 
             <!-- Home team name. -->
             <ng-container matColumnDef="HomeTeam">
                 <mat-cell *matCellDef="let match">
-                    {{ match.HomeTeam }}
+                    {{match.HomeTeam}}
                 </mat-cell>
             </ng-container>
 
             <!-- Home team score. -->
             <ng-container matColumnDef="HomeTeamScore">
                 <mat-cell *matCellDef="let match">
-                    {{ match.HomeTeamScore }}
+                    {{match.HomeTeamScore}}
                 </mat-cell>
             </ng-container>
 
@@ -56,14 +67,14 @@
             <!-- Away team score. -->
             <ng-container matColumnDef="AwayTeamScore">
                 <mat-cell *matCellDef="let match">
-                    {{ match.AwayTeamScore }}
+                    {{match.AwayTeamScore}}
                 </mat-cell>
             </ng-container>
 
             <!-- Away team name. -->
             <ng-container matColumnDef="AwayTeam">
                 <mat-cell *matCellDef="let match">
-                    {{ match.AwayTeam }}
+                    {{match.AwayTeam}}
                 </mat-cell>
             </ng-container>
 
@@ -71,7 +82,7 @@
             <ng-container matColumnDef="HalfTimeScore">
                 <mat-cell *matCellDef="let match">
                     <span *ngIf="match.HalfTimeScore.length > 3"
-                        class="halfTimeScore">({{ match.HalfTimeScore }})</span>
+                        class="halfTimeScore">({{match.HalfTimeScore}})</span>
                 </mat-cell>
             </ng-container>
 
@@ -82,7 +93,7 @@
                 </mat-footer-cell>
             </ng-container>
 
-            <!-- This will show up if there is no matches on today's date. -->
+            <!-- This will show up if there are no matches on today's date. -->
             <ng-container matColumnDef="noData">
                 <mat-footer-cell *matFooterCellDef colspan="6">
                     There are no matches on this day.

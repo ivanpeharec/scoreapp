@@ -43,25 +43,6 @@ body {
     color: #fff;
 }
 
-.breadcrumb-item > a:hover {
-    color: #ff0000;
-    text-decoration: none;
-}
-
-.breadcrumb {
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-    background-color: #001f3f; 
-    color: #fff;
-    font-weight: bold;
-    border-radius: 0 !important;
-    margin-bottom: 6px;
-}
-
-.breadcrumb-item {
-    color: #fff;
-}
-
 .bold {
     font-weight: bold;
 }
@@ -165,13 +146,13 @@ div.form-group label:first-child {
 
  /* mat-confirm-dialog (customized dialog) */
 .confirmDialogContainer .mat-dialog-container {
-    border-radius: .25em .25em .4em .4em;
+    border-radius: 4px;
     padding: 0px;
 }
+
 .confirmDialogContainer .content-container {
     margin: 5px 5px 15px 5px;
     color: #8f9cb5;
-    display: flex;
 }
 .confirmDialogContainer #close-icon {
     margin-left: auto;
@@ -185,7 +166,7 @@ div.form-group label:first-child {
 .confirmDialogContainer #no-button {
     height: 50px;
     width: 50%;
-    background-color: #fc7169;
+    background-color: green;
     color:white;
     border-radius: 0px;
 }
@@ -193,13 +174,13 @@ div.form-group label:first-child {
 .confirmDialogContainer #yes-button {
     height: 50px;
     width: 50%;
-    background-color: #b6bece;
+    background-color: #ff2314;
     color:white;
     border-radius: 0px;
 }
 
-.confirmDialogContainer span.content-span {
-    padding:  35px 16px;
+.confirmDialogContainer div.message {
+    padding: 25px 16px;
     text-align: center;
     font-size: 20px;
 }
@@ -227,6 +208,12 @@ mat-form-field {
 
 mat-form-field input {
     color: white !important;
+}
+
+mat-row {
+    border-bottom: 1px solid rgba(0,0,0,.42);
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 mat-error {
@@ -262,6 +249,7 @@ mat-datepicker-toggle {
     background-color: #09b83e !important;
     border: 1px solid #09b83e !important;
     margin-top: 15px !important;
+    color: white;
 }
 
 .submitButton:disabled {
@@ -281,6 +269,38 @@ mat-datepicker-toggle {
 
 .hide {
     display: none;
+}
+
+.mat-step-label {
+    color: #7e8694 !important;
+}
+
+.mat-step-label.mat-step-label-active {
+    color: #08c71b !important;
+}
+
+.mat-step-label.mat-step-label-active.mat-step-label-selected {
+    color: white !important;
+}
+
+.mat-stepper-horizontal {
+    background-color: #001f3f;
+}
+
+.mat-stepper-horizontal-line {
+    border-top-color: #7e8694 !important;
+}
+
+.mat-step-icon-state-number {
+    background-color: #636261 !important;
+}
+
+.mat-step-header .mat-step-icon-state-edit {
+    background-color: #118f1c !important;
+}
+
+.mat-step-icon.mat-step-icon-state-number.mat-step-icon-selected {
+    background-color: #0e6fe6 !important;
 }
 
 mat-paginator {
@@ -327,13 +347,11 @@ mat-footer-row mat-footer-cell {
     text-transform: uppercase;
 }
 
-.listTable .mat-header-row 
-{
+.listTable .mat-header-row {
     height: 25px;
 }
 
-.listTable mat-header-cell
-{
+.listTable mat-header-cell {
     text-decoration: underline;
     /* Increases the gap between the text and underline. */
     text-underline-position: under;
@@ -361,65 +379,65 @@ mat-footer-row mat-footer-cell {
     background-color: #001f3f;
 }
 
-.searchDiv .mat-icon 
-{
+.searchDiv .mat-icon {
     font-size: 19px !important;
 }
 
-.searchDiv .mat-form-field-wrapper 
-{
+.searchDiv .mat-form-field-wrapper {
     padding-bottom: 0px;
 }
 
-.searchDiv .mat-form-field-underline 
-{
+.searchDiv .mat-form-field-underline {
     position: unset;
 }
 
-.formControlsContainer input.mat-input-element 
-{
+.formControlsContainer input.mat-input-element {
     margin-top: 3px;
     background-color: #001f3f !important;
 }
 
-mat-select 
-{
+mat-select {
     margin-top: 3px;
 }
 
-mat-cell
-{
+mat-cell {
     line-height: 1 !important;
 }
 
-.mainTitleContainer
-{
+.subtitle {
     margin: 0px 16px;
     color: white;
     font-weight: bold;
     font-style: italic;
 }
 
-.entityNameTitle
-{
-    padding: 10px 24px 10px 24px;
+/* Changes material slide toggle color. */
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: #00a62e;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: #04de40;
+}
+
+div.mainTitle {
+    padding: 8px 24px 8px 24px;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     background-color: #001f3f;
     text-transform: uppercase;
+    text-align: center;
     font-weight: bold;
     border-bottom: 1px solid black;
 }
 
-/* Changes material slide toggle color. */
-.mat-slide-toggle.mat-checked .mat-slide-toggle-bar 
-{
-    background-color: #00a62e;
+div.mainTitle span {
+    font-size: 15px;
 }
 
-.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb 
-{
-    background-color: #04de40;
+button:focus {
+    background-color: #003873;
+    outline: none;
 }
 
 /* Sets color and background color for auto filling data on input elements. */
@@ -439,3 +457,13 @@ input.mat-input-element:-webkit-autofill:active  {
         margin-top: 60px;
     }
 }
+
+@media screen and (max-width: 575px)
+{
+    .hideOnSmallScreenSize {
+        display: none !important;
+    }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

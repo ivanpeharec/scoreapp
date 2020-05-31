@@ -201,6 +201,31 @@ namespace RezultatiAngular.Migrations
                     b.ToTable("Attachments");
                 });
 
+            modelBuilder.Entity("RezultatiAngular.Models.BasketballMatchComponents", b =>
+                {
+                    b.Property<int>("MatchID");
+
+                    b.Property<int?>("FirstQuarterAwayTeamScore");
+
+                    b.Property<int?>("FirstQuarterHomeTeamScore");
+
+                    b.Property<int?>("FourthQuarterAwayTeamScore");
+
+                    b.Property<int?>("FourthQuarterHomeTeamScore");
+
+                    b.Property<int?>("SecondQuarterAwayTeamScore");
+
+                    b.Property<int?>("SecondQuarterHomeTeamScore");
+
+                    b.Property<int?>("ThirdQuarterAwayTeamScore");
+
+                    b.Property<int?>("ThirdQuarterHomeTeamScore");
+
+                    b.HasKey("MatchID");
+
+                    b.ToTable("BasketballMatchComponents");
+                });
+
             modelBuilder.Entity("RezultatiAngular.Models.Competition", b =>
                 {
                     b.Property<int>("ID")
@@ -239,35 +264,44 @@ namespace RezultatiAngular.Migrations
                     b.HasIndex("TeamID");
 
                     b.ToTable("CompetitionTeams");
+                });
 
-                    b.HasData(
-                        new { CompetitionID = 1, TeamID = 1, Active = true },
-                        new { CompetitionID = 1, TeamID = 2, Active = true },
-                        new { CompetitionID = 1, TeamID = 3, Active = true },
-                        new { CompetitionID = 1, TeamID = 4, Active = true },
-                        new { CompetitionID = 1, TeamID = 5, Active = true },
-                        new { CompetitionID = 1, TeamID = 6, Active = true },
-                        new { CompetitionID = 1, TeamID = 7, Active = true },
-                        new { CompetitionID = 1, TeamID = 8, Active = true },
-                        new { CompetitionID = 1, TeamID = 9, Active = true },
-                        new { CompetitionID = 1, TeamID = 10, Active = true },
-                        new { CompetitionID = 1, TeamID = 11, Active = true },
-                        new { CompetitionID = 1, TeamID = 12, Active = true },
-                        new { CompetitionID = 1, TeamID = 13, Active = true },
-                        new { CompetitionID = 1, TeamID = 14, Active = true },
-                        new { CompetitionID = 1, TeamID = 15, Active = true },
-                        new { CompetitionID = 1, TeamID = 16, Active = true },
-                        new { CompetitionID = 1, TeamID = 17, Active = true },
-                        new { CompetitionID = 1, TeamID = 18, Active = true },
-                        new { CompetitionID = 1, TeamID = 19, Active = true },
-                        new { CompetitionID = 1, TeamID = 20, Active = true },
-                        new { CompetitionID = 2, TeamID = 21, Active = true },
-                        new { CompetitionID = 2, TeamID = 22, Active = true },
-                        new { CompetitionID = 2, TeamID = 23, Active = true },
-                        new { CompetitionID = 3, TeamID = 24, Active = true },
-                        new { CompetitionID = 5, TeamID = 25, Active = true },
-                        new { CompetitionID = 4, TeamID = 26, Active = true }
-                    );
+            modelBuilder.Entity("RezultatiAngular.Models.FootballMatchComponents", b =>
+                {
+                    b.Property<int>("MatchID");
+
+                    b.Property<int?>("AwayTeamScore");
+
+                    b.Property<int?>("HalfTimeAwayTeamScore");
+
+                    b.Property<int?>("HalfTimeHomeTeamScore");
+
+                    b.Property<int?>("HomeTeamScore");
+
+                    b.HasKey("MatchID");
+
+                    b.ToTable("FootballMatchComponents");
+                });
+
+            modelBuilder.Entity("RezultatiAngular.Models.IceHockeyMatchComponents", b =>
+                {
+                    b.Property<int>("MatchID");
+
+                    b.Property<int?>("FirstPeriodAwayTeamScore");
+
+                    b.Property<int?>("FirstPeriodHomeTeamScore");
+
+                    b.Property<int?>("SecondPeriodAwayTeamScore");
+
+                    b.Property<int?>("SecondPeriodHomeTeamScore");
+
+                    b.Property<int?>("ThirdPeriodAwayTeamScore");
+
+                    b.Property<int?>("ThirdPeriodHomeTeamScore");
+
+                    b.HasKey("MatchID");
+
+                    b.ToTable("IceHockeyMatchComponents");
                 });
 
             modelBuilder.Entity("RezultatiAngular.Models.Match", b =>
@@ -278,19 +312,11 @@ namespace RezultatiAngular.Migrations
 
                     b.Property<int>("AwayTeamID");
 
-                    b.Property<int?>("AwayTeamScore");
-
                     b.Property<int>("CompetitionID");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("HalfTimeAwayTeamScore");
-
-                    b.Property<int?>("HalfTimeHomeTeamScore");
-
                     b.Property<int>("HomeTeamID");
-
-                    b.Property<int?>("HomeTeamScore");
 
                     b.Property<int>("SportID");
 
@@ -323,7 +349,13 @@ namespace RezultatiAngular.Migrations
                     b.HasData(
                         new { ID = 1, Name = "Football" },
                         new { ID = 2, Name = "Basketball" },
-                        new { ID = 3, Name = "Tennis" }
+                        new { ID = 3, Name = "Tennis" },
+                        new { ID = 4, Name = "Volleyball" },
+                        new { ID = 5, Name = "Ice hockey" },
+                        new { ID = 6, Name = "American football" },
+                        new { ID = 7, Name = "Baseball" },
+                        new { ID = 8, Name = "Handball" },
+                        new { ID = 9, Name = "Water polo" }
                     );
                 });
 
@@ -426,6 +458,14 @@ namespace RezultatiAngular.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("RezultatiAngular.Models.BasketballMatchComponents", b =>
+                {
+                    b.HasOne("RezultatiAngular.Models.Match", "Match")
+                        .WithOne("BasketballMatchComponents")
+                        .HasForeignKey("RezultatiAngular.Models.BasketballMatchComponents", "MatchID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("RezultatiAngular.Models.Competition", b =>
                 {
                     b.HasOne("RezultatiAngular.Models.Sport", "Sport")
@@ -445,6 +485,22 @@ namespace RezultatiAngular.Migrations
                         .WithMany("CompetitionTeams")
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("RezultatiAngular.Models.FootballMatchComponents", b =>
+                {
+                    b.HasOne("RezultatiAngular.Models.Match", "Match")
+                        .WithOne("FootballMatchComponents")
+                        .HasForeignKey("RezultatiAngular.Models.FootballMatchComponents", "MatchID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("RezultatiAngular.Models.IceHockeyMatchComponents", b =>
+                {
+                    b.HasOne("RezultatiAngular.Models.Match", "Match")
+                        .WithOne("IceHockeyMatchComponents")
+                        .HasForeignKey("RezultatiAngular.Models.IceHockeyMatchComponents", "MatchID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("RezultatiAngular.Models.Match", b =>

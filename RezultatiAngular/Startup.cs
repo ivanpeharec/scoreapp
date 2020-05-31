@@ -66,8 +66,19 @@ namespace RezultatiAngular
                 options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
             });
 
+            // Telling Json.NET to ignore cycles that it finds in the object graph.
+            services.AddMvc()
+                .AddJsonOptions(
+                    options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                );
+
             services.AddDbContext<ScoreManagerDbContext>(options =>
                 options.UseSqlServer(
+                    Configuration.GetConnectionString("ScoreManagerDbContext")));
+
+            services.AddDbContext<ScoreManagerDbContext>(
+                options => options.UseLazyLoadingProxies()
+                .UseSqlServer(
                     Configuration.GetConnectionString("ScoreManagerDbContext")));
 
             services.AddDefaultIdentity<IdentityUser>()

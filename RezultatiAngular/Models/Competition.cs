@@ -28,7 +28,7 @@ namespace RezultatiAngular.Models
         /// <summary>
         /// Sport the competition belongs to.
         /// </summary>
-        public Sport Sport { get; set; }
+        public virtual Sport Sport { get; set; }
 
         /// <summary>
         /// Match list for the particular competition.

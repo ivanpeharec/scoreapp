@@ -24,22 +24,12 @@ namespace RezultatiAngular.Models
         public int SportID { get; set; }
 
         /// <summary>
-        /// Sport the match belongs to.
-        /// </summary>
-        public Sport Sport { get; set; }
-
-        /// <summary>
         /// Competition ID for the particular match.
         /// </summary>
         [ForeignKey("Competition")]
         [Required(ErrorMessage = "Competition has to be selected!")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Competition has to be selected!")]
         public int CompetitionID { get; set; }
-
-        /// <summary>
-        /// Competition the match belongs to.
-        /// </summary>
-        public Competition Competition { get; set; }
 
         /// <summary>
         /// ID of the home team.
@@ -50,11 +40,6 @@ namespace RezultatiAngular.Models
         public int HomeTeamID { get; set; }
 
         /// <summary>
-        /// Home team of the match.
-        /// </summary>
-        public Team HomeTeam { get; set; }
-
-        /// <summary>
         /// ID of the away team.
         /// </summary>
         [ForeignKey("AwayTeam")]
@@ -63,28 +48,38 @@ namespace RezultatiAngular.Models
         public int AwayTeamID { get; set; }
 
         /// <summary>
+        /// Home team of the match.
+        /// </summary>
+        public Team HomeTeam { get; set; }
+
+        /// <summary>
         /// Away team of the match.
         /// </summary>
         public Team AwayTeam { get; set; }
 
         /// <summary>
-        /// Score of the home team at half time.
+        /// Sport the match belongs to.
         /// </summary>
-        public int? HalfTimeHomeTeamScore { get; set; }
+        public virtual Sport Sport { get; set; }
 
         /// <summary>
-        /// Score of the away team at half time.
+        /// Competition the match belongs to.
         /// </summary>
-        public int? HalfTimeAwayTeamScore { get; set; }
+        public virtual Competition Competition { get; set; }
 
         /// <summary>
-        /// Score of the home team at full time.
+        /// Components of a football match.
         /// </summary>
-        public int? HomeTeamScore { get; set; }
+        public virtual FootballMatchComponents FootballMatchComponents { get; set; }
 
         /// <summary>
-        /// Score of the away team at full time.
+        /// Components of a basketball match.
         /// </summary>
-        public int? AwayTeamScore { get; set; }
+        public virtual BasketballMatchComponents BasketballMatchComponents { get; set; }
+
+        /// <summary>
+        /// Components of an ice hockey match.
+        /// </summary>
+        public virtual IceHockeyMatchComponents IceHockeyMatchComponents { get; set; }
     }
 }

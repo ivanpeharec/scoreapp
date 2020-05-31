@@ -55,6 +55,30 @@ namespace RezultatiAngular.Controllers
         }
 
         /// <summary>
+        /// GET: api/Sports/byMatchID/5.
+        /// Retrieves sport ID of specific match.
+        /// </summary>
+        /// <param name="id">Sport ID.</param>
+        /// <returns>OkObjectResult object (sport ID).</returns>
+        [HttpGet("byMatchID/{matchID}")]
+        public async Task<IActionResult> GetSportIDByMatchID([FromRoute] int matchID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var sportID = await _context.Matches.Where(x => x.ID == matchID).Select(x => x.SportID).FirstOrDefaultAsync();
+
+            if (sportID <= 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(sportID);
+        }
+
+        /// <summary>
         /// PUT: api/Sports/5.
         /// Updates a specific sport.
         /// </summary>

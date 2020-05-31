@@ -1,0 +1,33 @@
+.nextPrevButton {
+    background-color: #0e6fe6;
+    color: white;
+    margin-left: 15px;
+    margin-top: 15px;
+    border: 1px solid #0e6fe6;
+}
+
+.nextPrevButton.btnPrev {
+    margin-right: 10px;
+}
+
+.btnSubmit {
+    color: white !important;
+    background-color: #118f1c !important;
+}
+
+.btnSubmit:disabled {
+  background-color: #001f3f !important;
+  border: 1px solid #6a6c6e !important;
+  color: #6a6c6e !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

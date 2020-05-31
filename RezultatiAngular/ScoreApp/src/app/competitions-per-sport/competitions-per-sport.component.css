@@ -5,7 +5,7 @@
 
 .mat-column-ChildrenEntityList
 {
-    flex: 0 0 60px;
+    flex: 0 0 40px;
     justify-content: flex-end !important;
 }
 
@@ -17,7 +17,7 @@
 
 .mat-column-Delete
 {
-    flex: 0 0 60px;
+    flex: 0 0 64px;
     justify-content: flex-end !important;
 }
 

@@ -39,9 +39,6 @@ export class FootballmatchesComponent implements OnInit {
       + '. '
       + this.service.dayOfWeek(this.currentSelectedDate.getDay());
 
-    // Data retreive.
-    this.teamService.refreshList();
-
     // Football ID = 1.
     this.teamService.getTeamsBySport(1)
       .subscribe(

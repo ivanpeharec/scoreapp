@@ -1,8 +1,8 @@
-<form [formGroup]="service.formModel" autocomplete="off" (submit)="onSubmit()">
+<!-- <form [formGroup]="service.registerForm" autocomplete="off" (submit)="onSubmit()">
     <div class="form-group required">
         <label>Username</label>
         <input class="form-control" formControlName="UserName" required>
-        <div *ngIf="service.formModel.get('UserName').touched && service.formModel.get('UserName').errors?.required"
+        <div *ngIf="service.registerForm.get('UserName').touched && service.registerForm.get('UserName').errors?.required"
             class="alert alert-danger">
             Username is required.
         </div>
@@ -10,8 +10,8 @@
     <div class="form-group">
         <label>Email</label>
         <input class="form-control no-validate" formControlName="Email"
-            [ngClass]="{ 'isInvalid' : service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email, 'isValid' : service.formModel.get('Email').touched && !service.formModel.get('Email').errors?.email && service.formModel.get('Email').value}">
-        <div *ngIf="service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email"
+            [ngClass]="{ 'isInvalid' : service.registerForm.get('Email').touched && service.registerForm.get('Email').errors?.email, 'isValid' : service.registerForm.get('Email').touched && !service.registerForm.get('Email').errors?.email && service.registerForm.get('Email').value}">
+        <div *ngIf="service.registerForm.get('Email').touched && service.registerForm.get('Email').errors?.email"
             class="alert alert-danger">
             Enter a valid email address.
         </div>
@@ -20,39 +20,93 @@
         <div class="form-group required">
             <label>Password</label>
             <input class="form-control" formControlName="Password" type="password" required autocomplete="new-password">
-            <div *ngIf="service.formModel.get('Passwords.Password').touched && 
-                        service.formModel.get('Passwords.Password').errors?.required"
-                class="alert alert-danger">
+            <div *ngIf="service.registerForm.get('Passwords.Password').touched && 
+                        service.registerForm.get('Passwords.Password').errors?.required" class="alert alert-danger">
                 Password is required.
             </div>
-            <div *ngIf="service.formModel.get('Passwords.Password').touched && 
-                        service.formModel.get('Passwords.Password').errors?.minlength"
-                class="alert alert-danger">
+            <div *ngIf="service.registerForm.get('Passwords.Password').touched && 
+                        service.registerForm.get('Passwords.Password').errors?.minlength" class="alert alert-danger">
                 Minimum 4 characters required.
             </div>
         </div>
         <div class="form-group required">
             <label>Confirm password</label>
-            <input class="form-control no-validate" formControlName="ConfirmPassword" type="password" autocomplete="new-password"
-                [ngClass]="{ 'isInvalid' : service.formModel.get('Passwords.ConfirmPassword').touched && (service.formModel.get('Passwords.ConfirmPassword').errors || service.formModel.get('Passwords.ConfirmPassword').value != service.formModel.get('Passwords.Password').value), 'isValid' : service.formModel.get('Passwords.ConfirmPassword').touched && !service.formModel.get('Passwords.ConfirmPassword').errors && service.formModel.get('Passwords.ConfirmPassword').value == service.formModel.get('Passwords.Password').value}">
-            <div *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.required"
+            <input class="form-control no-validate" formControlName="ConfirmPassword" type="password"
+                autocomplete="new-password"
+                [ngClass]="{ 'isInvalid' : service.registerForm.get('Passwords.ConfirmPassword').touched && (service.registerForm.get('Passwords.ConfirmPassword').errors || service.registerForm.get('Passwords.ConfirmPassword').value != service.registerForm.get('Passwords.Password').value), 'isValid' : service.registerForm.get('Passwords.ConfirmPassword').touched && !service.registerForm.get('Passwords.ConfirmPassword').errors && service.registerForm.get('Passwords.ConfirmPassword').value == service.registerForm.get('Passwords.Password').value}">
+            <div *ngIf="service.registerForm.get('Passwords.ConfirmPassword').touched && service.registerForm.get('Passwords.ConfirmPassword').errors?.required"
                 class="alert alert-danger">
                 Password confirmation is required.
             </div>
-            <div *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.minlength && !service.formModel.get('Passwords.Password').errors?.required"
+            <div *ngIf="service.registerForm.get('Passwords.ConfirmPassword').touched && service.registerForm.get('Passwords.ConfirmPassword').errors?.minlength && !service.registerForm.get('Passwords.Password').errors?.required"
                 class="alert alert-danger">
                 Minimum 4 characters required.
             </div>
-            <div *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && 
-                    service.formModel.get('Passwords.ConfirmPassword').value != service.formModel.get('Passwords.Password').value &&
-                    !service.formModel.get('Passwords.ConfirmPassword').errors?.required &&
-                    !service.formModel.get('Passwords.ConfirmPassword').errors?.minlength" class="alert alert-danger">
+            <div *ngIf="service.registerForm.get('Passwords.ConfirmPassword').touched && 
+                    service.registerForm.get('Passwords.ConfirmPassword').value != service.registerForm.get('Passwords.Password').value &&
+                    !service.registerForm.get('Passwords.ConfirmPassword').errors?.required &&
+                    !service.registerForm.get('Passwords.ConfirmPassword').errors?.minlength"
+                class="alert alert-danger">
                 Password confirmation doesn't match password.
             </div>
         </div>
     </div>
     <div class="form-group buttonContainer">
         <button type="submit" class="btn btn-success"
-            [disabled]="!service.formModel.valid || service.formModel.get('Passwords.ConfirmPassword').value != service.formModel.get('Passwords.Password').value">Sign Up</button>
+            [disabled]="!service.registerForm.valid || service.registerForm.get('Passwords.ConfirmPassword').value != service.registerForm.get('Passwords.Password').value">Sign
+            Up</button>
     </div>
-</form>
+</form> -->
+
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="formControlsContainer">
+            <!-- Form. -->
+            <form #form="ngForm" [formGroup]="service.registerForm" (submit)="onSubmit(form)">
+                <!-- Username. -->
+                <mat-form-field>
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="UserName" required>
+                    <mat-error>Username is required!</mat-error>
+                </mat-form-field>
+
+                <!-- Email. -->
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="Email">
+                </mat-form-field>
+
+                <!-- Password. -->
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="Password" required>
+                    <mat-error *ngIf="service.registerForm.get('Password').errors?.required">
+                        Password is required!
+                    </mat-error>
+                    <mat-error *ngIf="service.registerForm.get('Password').errors?.minlength">
+                        Minimum 4 characters required.
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Confirm password. -->
+                <mat-form-field>
+                    <mat-label class="aaaaj">Confirm password</mat-label>
+                    <input matInput formControlName="ConfirmPassword" required>
+                    <mat-error *ngIf="service.registerForm.get('ConfirmPassword').errors?.required">
+                        Password confirmation is required!
+                    </mat-error>
+                    <mat-error *ngIf="service.registerForm.get('ConfirmPassword').errors?.minlength">
+                        Minimum 4 characters required.
+                    </mat-error>
+                    <mat-error *ngIf="service.registerForm.get('ConfirmPassword').errors?.passwordsMismatch">
+                        Passwords must match.
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Form submit button. -->
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.registerForm.valid"
+                    class="submitButton">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

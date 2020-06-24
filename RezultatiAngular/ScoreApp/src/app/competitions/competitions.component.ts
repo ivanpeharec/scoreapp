@@ -37,8 +37,6 @@ export class CompetitionsComponent implements OnInit {
       this.displayedColumns = ['Name', 'ChildrenEntityList'];
     }
 
-    this.service.refreshList();
-
     this.service.getCompetitions()
       .subscribe(
         list => {

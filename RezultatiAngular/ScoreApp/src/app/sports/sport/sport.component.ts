@@ -17,8 +17,6 @@ export class SportComponent implements OnInit {
     Name: ''
   };
 
-  loaded = false;
-
   constructor(public service: SportService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -47,16 +45,10 @@ export class SportComponent implements OnInit {
             ID: this.sport.ID,
             Name: this.sport.Name
           });
-
-          this.loaded = true;
         });
-    }
-    else {
-      this.loaded = true;
     }
 
     this.resetForm();
-    this.service.refreshList();
   }
 
   resetForm(form?: NgForm) {
@@ -80,7 +72,6 @@ export class SportComponent implements OnInit {
       res => {
         this.toastr.success('Inserted successfully', this.sport.Name);
         form.resetForm();
-        this.service.refreshList();
       },
       err => {
         this.toastr.error('There was an error while inserting the sport.', this.sport.Name);
@@ -93,7 +84,6 @@ export class SportComponent implements OnInit {
     this.service.putSport().subscribe(
       res => {
         this.toastr.success('Edited successfully', this.sport.Name);
-        this.service.refreshList();
       },
       err => {
         this.toastr.error('There was an error while editing this sport.', this.sport.Name);

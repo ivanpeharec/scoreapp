@@ -41,8 +41,6 @@ export class TeamsComponent implements OnInit {
       this.displayedColumns = ['Name'];
     }
 
-    this.service.refreshList();
-
     this.service.getTeams()
       .subscribe(
         list => {

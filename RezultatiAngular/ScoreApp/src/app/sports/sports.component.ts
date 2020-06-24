@@ -38,8 +38,6 @@ export class SportsComponent implements OnInit {
       this.displayedColumns = ['Name', 'ChildrenEntityList'];
     }
 
-    this.service.refreshList();
-
     this.service.getSports()
       .subscribe(
         list => {

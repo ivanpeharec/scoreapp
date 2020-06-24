@@ -20,29 +20,31 @@ export class CompetitionComponent implements OnInit {
     SportID: 0
   };
 
-  loaded = false;
   sports: Sport[];
 
   constructor(public service: CompetitionService,
     private sportService: SportService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router) { }
 
+  ngOnInit() {
     this.service.form.reset();
 
+    // Assign ID retrieved from route to the competition object.
     this.route.params
       .subscribe(
         p => {
-          this.competition.ID = +p['id'];
+          if (+p['id'] > 0) {
+            this.competition.ID = +p['id'];
+          }
         },
         err => {
           if (err.status == 404)
             this.router.navigate(['/competitions']);
         });
-  }
 
-  ngOnInit() {
+    // On edit - retrieve competition object by ID and update the form model values.
     if (this.competition.ID > 0) {
       this.service.getCompetition(this.competition.ID)
         .subscribe(b => {
@@ -53,29 +55,15 @@ export class CompetitionComponent implements OnInit {
             Name: this.competition.Name,
             SportID: this.competition.SportID
           });
-
-          this.loaded = true;
         });
     }
-    else {
-      this.loaded = true;
-    }
 
-    this.resetForm();
-    this.service.refreshList();
-
+    // Retrieves all sports and stores them.
     this.sportService.getSports()
-      .subscribe(b => {
-        this.sports = b;
-      });
-  }
-
-  resetForm(form?: NgForm) {
-    this.competition = {
-      ID: 0,
-      Name: '',
-      SportID: 0
-    };
+      .subscribe(
+        b => {
+          this.sports = b;
+        });
   }
 
   onSubmit(form: NgForm) {
@@ -83,29 +71,28 @@ export class CompetitionComponent implements OnInit {
       this.insertRecord(form);
     }
     else {
-      this.updateRecord(form);
+      this.updateRecord();
     }
   }
 
   insertRecord(form: NgForm) {
-    this.service.postCompetition().subscribe(
-      res => {
-        this.toastr.success('Inserted successfully', this.competition.Name);
-        form.resetForm();
-        this.service.refreshList();
-      },
-      err => {
-        this.toastr.error('There was an error while inserting the competition.', this.competition.Name);
-        console.log(err);
-      }
-    )
+    this.service.postCompetition()
+      .subscribe(
+        res => {
+          this.toastr.success('Competition inserted successfully!', this.competition.Name);
+          form.resetForm();
+        },
+        err => {
+          this.toastr.error('There was an error while inserting the competition.', this.competition.Name);
+          console.log(err);
+        }
+      )
   }
 
-  updateRecord(form: NgForm) {
+  updateRecord() {
     this.service.putCompetition().subscribe(
       res => {
         this.toastr.success('Edited successfully', this.competition.Name);
-        this.service.refreshList();
       },
       err => {
         this.toastr.error('There was an error while editing this competition.', this.competition.Name);

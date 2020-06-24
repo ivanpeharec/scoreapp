@@ -35,8 +35,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { TeamsPerCompetitionComponent } from './teams-per-competition/teams-per-competition.component';
-import { CompetitionsPerSportComponent } from './competitions-per-sport/competitions-per-sport.component';
+import { TeamsPerCompetitionComponent } from './teams/teams-per-competition/teams-per-competition.component';
+import { CompetitionsPerSportComponent } from './competitions/competitions-per-sport/competitions-per-sport.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +69,8 @@ import { CompetitionsPerSportComponent } from './competitions-per-sport/competit
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      progressBar: true
+      progressBar: true,
+      positionClass: 'toast-bottom-right'
     }),
     NgbModule,
     NgTempusdominusBootstrapModule,

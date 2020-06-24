@@ -11,7 +11,6 @@ export class TeamService {
   readonly rootURL = 'https://localhost:44327/api/Teams/';
   readonly attachmentsURL = 'https://localhost:44327/api/Attachments/';
 
-  list: Team[];
   attachments: Attachment[];
 
   form: FormGroup = new FormGroup({
@@ -91,12 +90,6 @@ export class TeamService {
   // Gets image path.
   getImage(teamId: number) {
     return this.http.get(this.rootURL + 'uploads/' + teamId);
-  }
-
-  refreshList() {
-    this.http.get(this.rootURL)
-      .toPromise()
-      .then(res => this.list = res as Team[]);
   }
 
   // Gets team emblems.

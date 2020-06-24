@@ -248,13 +248,6 @@ export class MatchService {
     return this.http.get(this.rootURL + 'bySport/' + sportId);
   }
 
-  // Refresh match list.
-  refreshList() {
-    this.http.get(this.rootURL)
-      .toPromise()
-      .then(res => this.list = res as Match[]);
-  }
-
   // Get the day of the week abbreviation.
   dayOfWeek(dayNumber) {
     return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayNumber];

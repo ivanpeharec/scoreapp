@@ -43,8 +43,6 @@ export class MatchesComponent implements OnInit {
     // Setting current date string.
     this.currentSelectedDateString = this.currentSelectedDate.getDate() + '.' + (this.currentSelectedDate.getMonth() + 1) + '. ' + this.dayOfWeek(this.currentSelectedDate.getDay());
 
-    // Data retreive.
-    this.teamService.refreshList();
     this.teamService.getTeams()
       .subscribe(
         res => {

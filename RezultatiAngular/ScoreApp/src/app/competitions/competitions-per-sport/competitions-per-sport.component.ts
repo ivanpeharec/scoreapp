@@ -1,28 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TeamService } from '../shared/team.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Team } from '../shared/team.model';
-import { UserService } from '../shared/user.service';
-import { Competition } from '../shared/competition.model';
-import { CompetitionService } from '../shared/competition.service';
+import { UserService } from '../../shared/user.service';
+import { Competition } from '../../shared/competition.model';
+import { CompetitionService } from '../../shared/competition.service';
+import { SportService } from '../../shared/sport.service';
+import { Sport } from '../../shared/sport.model';
 
 @Component({
-  selector: 'app-teams-per-competition',
-  templateUrl: './teams-per-competition.component.html',
-  styleUrls: ['./teams-per-competition.component.css']
+  selector: 'app-competitions-per-sport',
+  templateUrl: './competitions-per-sport.component.html',
+  styleUrls: ['./competitions-per-sport.component.css']
 })
-export class TeamsPerCompetitionComponent implements OnInit {
+export class CompetitionsPerSportComponent implements OnInit {
   loadComponent: boolean = false;
-  competition = {
+  sport = {
     ID: 0,
-    Name: '',
-    SportID: 0
+    Name: ''
   };
 
-  listData: MatTableDataSource<Team>;
+  listData: MatTableDataSource<Competition>;
 
   displayedColumns: string[];
   @ViewChild(MatSort) sort: MatSort;
@@ -31,18 +30,18 @@ export class TeamsPerCompetitionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
-    private service: TeamService,
-    private competitionService: CompetitionService) {
+    public userService: UserService,
+    private service: CompetitionService,
+    private sportService: SportService) {
     route.params.subscribe(
       p => {
         if (+p['id'] > 0) {
           // Saves the competition ID from the route parameters.
-          this.competition.ID = +p['id'];
+          this.sport.ID = +p['id'];
 
-          this.competitionService.getCompetition(this.competition.ID)
+          this.sportService.getSport(this.sport.ID)
             .subscribe(b => {
-              this.competition = b as Competition;
+              this.sport = b as Sport;
             });
         }
 
@@ -54,20 +53,18 @@ export class TeamsPerCompetitionComponent implements OnInit {
         if (err.status == 404)
           this.router.navigate(['/not-found']);
       });
-
-    this.service.getAllAttachments();
   }
 
   ngOnInit() {
     // Only users with admin role should be able to see edit and delete buttons.
     if (this.userService.isAdmin()) {
-      this.displayedColumns = ['Name', 'Edit', 'Delete'];
+      this.displayedColumns = ['Name', 'ChildrenEntityList', 'Edit', 'Delete'];
     }
     else {
-      this.displayedColumns = ['Name'];
+      this.displayedColumns = ['Name', 'ChildrenEntityList'];
     }
 
-    this.service.getTeamsByCompetition(this.competition.ID)
+    this.service.getCompetitionsBySport(this.sport.ID)
       .subscribe(
         list => {
           let array = list.map(
@@ -90,21 +87,6 @@ export class TeamsPerCompetitionComponent implements OnInit {
           console.log(err);
         }
       )
-  }
-
-  imageUrl(teamId: number) {
-    let image = null;
-    let imageLink = null;
-
-    if (this.service.attachments.some(x => x.TeamID === teamId)) {
-      image = this.service.attachments
-        .filter(a => a.TeamID == teamId)
-        .map(function (x) { return x.Image; });
-
-      imageLink = 'https://localhost:44327/' + image;
-    }
-
-    return imageLink;
   }
 
   onSearchClear() {

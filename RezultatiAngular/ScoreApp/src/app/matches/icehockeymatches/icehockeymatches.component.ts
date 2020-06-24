@@ -40,9 +40,6 @@ export class IcehockeymatchesComponent implements OnInit {
       + '. '
       + this.service.dayOfWeek(this.currentSelectedDate.getDay());
 
-    // Data retreive.
-    this.teamService.refreshList();
-
     // Ice hockey ID = 5.
     this.teamService.getTeamsBySport(5).pipe(
       concatMap(

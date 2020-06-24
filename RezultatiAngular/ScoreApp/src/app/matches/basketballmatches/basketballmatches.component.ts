@@ -42,9 +42,6 @@ export class BasketballmatchesComponent implements OnInit {
       + '. '
       + this.service.dayOfWeek(this.currentSelectedDate.getDay());
 
-    // Data retreive.
-    this.teamService.refreshList();
-
     // Basketball ID = 2.
     this.teamService.getTeamsBySport(2).pipe(
       concatMap(

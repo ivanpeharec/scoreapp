@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -9,7 +9,6 @@ export class UserService {
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
 
-  navbarLoaded = false;
   isAuthenticated = false;
   isAdministrator = false;
 
@@ -17,26 +16,41 @@ export class UserService {
 
   readonly rootURL = 'https://localhost:44327/api';
 
-  formModel = this.formBuilder.group({
-    UserName: ['', Validators.required],
-    Email: ['', Validators.email],
-    Passwords: this.formBuilder.group({
+  registerForm = this.formBuilder.group(
+    {
+      UserName: ['', Validators.required],
+      Email: ['', Validators.email],
       Password: ['', [Validators.required, Validators.minLength(4)]],
       ConfirmPassword: ['', [Validators.required, Validators.minLength(4)]]
-    })
+    },
+    {
+      // Check if two passwords match. 
+      validator: comparePasswords("Password", "ConfirmPassword")
+    }
+  );
+
+  loginForm: FormGroup = new FormGroup({
+    UserName: new FormControl(null, Validators.required),
+    Password: new FormControl(null, Validators.required)
   });
 
   register() {
     var body = {
-      UserName: this.formModel.value.UserName,
-      Email: this.formModel.value.Email,
-      Password: this.formModel.value.Passwords.Password
+      UserName: this.registerForm.value.UserName,
+      Email: this.registerForm.value.Email,
+      Password: this.registerForm.value.Password
     };
+
     return this.http.post(this.rootURL + '/ApplicationUser/Register', body);
   }
 
-  login(formData) {
-    return this.http.post(this.rootURL + '/ApplicationUser/Login', formData);
+  login() {
+    var body = {
+      UserName: this.loginForm.value.UserName,
+      Password: this.loginForm.value.Password
+    };
+
+    return this.http.post(this.rootURL + '/ApplicationUser/Login', body);
   }
 
   getUserProfile() {
@@ -68,7 +82,7 @@ export class UserService {
   }
 
   isAdmin() {
-    if (this.isAuthenticated) {
+    if (localStorage.getItem('token') != null) {
       var payLoad = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var userRole = payLoad.role;
       if (userRole == 'Admin') {
@@ -79,7 +93,26 @@ export class UserService {
         return false;
       }
     }
+    else {
+      return false;
+    }
+  }
+}
 
-    return false;
+function comparePasswords(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+
+    if (matchingControl.errors && !matchingControl.errors.passwordsMismatch) {
+      return;
+    }
+
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ passwordsMismatch: true })
+    }
+    else {
+      matchingControl.setErrors(null);
+    }
   }
 }

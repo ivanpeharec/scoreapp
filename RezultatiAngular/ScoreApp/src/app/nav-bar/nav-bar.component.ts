@@ -21,9 +21,6 @@ export class NavBarComponent implements OnInit {
         },
         err => {
           console.log(err);
-        },
-        () => {
-          this.service.navbarLoaded = true;
         }
       );
     }

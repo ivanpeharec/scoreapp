@@ -1,14 +1,33 @@
-<img src="/assets/images/user.png" class="mx-auto d-block" width="200px">
-<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
-    <div class="form-group">
-        <label>Username</label>
-        <input class="form-control" #UserName="ngModel" name="UserName" [(ngModel)]="formModel.UserName" required>
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="userImageContainer">
+            <img src="/assets/images/user.png" class="mx-auto d-block" width="200px">
+        </div>
     </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input class="form-control" #Password="ngModel" name="Password" [(ngModel)]="formModel.Password" type="password" required>
+</div>
+
+<div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div class="formControlsContainer">
+            <!-- Form. -->
+            <form #form="ngForm" [formGroup]="service.loginForm" (submit)="onSubmit(form)">
+
+                <!-- Username. -->
+                <mat-form-field>
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="UserName">
+                </mat-form-field>
+
+                <!-- Sport. -->
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="Password" type="password">
+                </mat-form-field>
+
+                <!-- Form submit button. -->
+                <button mat-flat-button color="primary" type="submit" [disabled]="!service.loginForm.valid"
+                    class="submitButton"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group buttonContainer">
-        <button type="submit" class="btn btn-success" [disabled]="form.invalid"><i class="fas fa-sign-in-alt"></i> Login</button>
-    </div>
-</form>
+</div>

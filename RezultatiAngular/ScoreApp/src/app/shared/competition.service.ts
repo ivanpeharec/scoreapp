@@ -10,8 +10,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class CompetitionService {
   readonly rootURL = 'https://localhost:44327/api/Competitions/';
 
-  list: Competition[];
-
   form: FormGroup = new FormGroup({
     ID: new FormControl(0),
     SportID: new FormControl(null, Validators.required),
@@ -42,8 +40,8 @@ export class CompetitionService {
 
   getCompetition(id: number) {
     return this.http.get(this.rootURL + id);
-  } 
-  
+  }
+
   getCompetitions(): Observable<Competition[]> {
     return this.http.get<Competition[]>(this.rootURL);
   }
@@ -61,11 +59,4 @@ export class CompetitionService {
   getPossibleCompetitions(teamID: number) {
     return this.http.get<Competition[]>(this.rootURL + 'possibleCompetitionsForTeam/' + teamID);
   }
-
-  refreshList(){
-    this.http.get(this.rootURL)
-    .toPromise()
-    .then(res => this.list = res as Competition[]);
-  }
-
 }

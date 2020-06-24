@@ -5,7 +5,7 @@
 
 .mat-column-ChildrenEntityList
 {
-    flex: 0 0 60px;
+    flex: 0 0 64px;
     justify-content: flex-end !important;
 }
 
@@ -17,11 +17,11 @@
 
 .mat-column-Delete
 {
-    flex: 0 0 60px;
+    flex: 0 0 64px;
     justify-content: flex-end !important;
 }
 
 .iconFontSize
 {
-    font-size: 18px !important;
+    font-size: 19px !important;
 }

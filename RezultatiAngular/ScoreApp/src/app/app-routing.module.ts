@@ -17,8 +17,8 @@ import { LoginComponent } from './user/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { TeamsPerCompetitionComponent } from './teams-per-competition/teams-per-competition.component';
-import { CompetitionsPerSportComponent } from './competitions-per-sport/competitions-per-sport.component';
+import { TeamsPerCompetitionComponent } from './teams/teams-per-competition/teams-per-competition.component';
+import { CompetitionsPerSportComponent } from './competitions/competitions-per-sport/competitions-per-sport.component';
 
 const routes: Routes = [
   { path: '', component: FootballmatchesComponent },

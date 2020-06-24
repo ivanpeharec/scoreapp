@@ -39,7 +39,6 @@ export class TeamComponent implements OnInit {
   updateMode = false;
   imageLoaded = false;
   sports: any;
-  competitions: any;
   possibleCompetitions: Competition[];
   fileUploaded = null;
   uploadedFile: string = null;
@@ -49,7 +48,9 @@ export class TeamComponent implements OnInit {
     private competitionService: CompetitionService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router) { }
+
+  ngOnInit() {
     // Resets the form.
     this.service.form.reset();
 
@@ -76,10 +77,7 @@ export class TeamComponent implements OnInit {
           if (err.status == 404)
             this.router.navigate(['/not-found']);
         });
-  }
 
-  ngOnInit() {
-    console.log(this.service.getTeam(this.team.ID));
     if (this.team.ID > 0 && this.loadComponent == true) {
       this.service.competitionTeamForm.reset();
       this.imageLink = '';
@@ -128,16 +126,10 @@ export class TeamComponent implements OnInit {
     }
 
     this.resetForm();
-    this.service.refreshList();
 
     this.sportService.getSports()
       .subscribe(b => {
         this.sports = b;
-      });
-
-    this.competitionService.getCompetitions()
-      .subscribe(b => {
-        this.competitions = b;
       });
   }
 
@@ -175,7 +167,6 @@ export class TeamComponent implements OnInit {
             this.possibleCompetitions = c;
           });
         // form.resetForm();
-        this.service.refreshList();
       },
       err => {
         this.toastr.error('There was an error while inserting the team.', this.team.Name);
@@ -215,7 +206,6 @@ export class TeamComponent implements OnInit {
     this.service.putTeam().subscribe(
       res => {
         this.toastr.success('Edited successfully', this.team.Name);
-        this.service.refreshList();
       },
       err => {
         this.toastr.error('There was an error while editing this team.', this.team.Name);

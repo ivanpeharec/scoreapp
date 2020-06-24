@@ -274,7 +274,7 @@ export class MatchComponent implements OnInit {
 
   // On every change of selected sport, this method filters available competitions for the selected sport. 
   onSelectSport() {
-    // Reset form controls and arrays.
+    // Resetting form controls and arrays.
     this.service.matchForm.get('CompetitionID').reset();
     this.service.matchForm.get('HomeTeamID').reset();
     this.service.matchForm.get('AwayTeamID').reset();

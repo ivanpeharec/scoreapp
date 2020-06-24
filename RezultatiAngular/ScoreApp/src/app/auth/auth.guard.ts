@@ -7,12 +7,11 @@ import { UserService } from '../shared/user.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, private service: UserService) {
+  constructor(private router: Router, private service: UserService) { }
 
-  }
-
-  canActivate(
-    next: ActivatedRouteSnapshot): boolean {
+  // Determines if the currently logged in user can activate the route and see the content of it.
+  // If the user is not allowed to activate the route, we are navigating to login screen. 
+  canActivate(next: ActivatedRouteSnapshot): boolean {
     if (localStorage.getItem('token') != null) {
       let roles = next.data['permittedRoles'] as Array<string>;
       if (roles) {

@@ -83,51 +83,29 @@ div.form-group label:not(.text-danger) {
     font-weight: 700;
 }
 
-div.form-group.required>label:first-child:after {
-    content:'*';
-    color: red;
-    padding-left: 5px;
-}
-
-.wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column; 
-    justify-content: center;
-    width: 100%;
-    padding: 20px;
-}
-
-.wrapped-div {
-    background: #001f3f;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    padding: 0px;
-}
-
   /* Tabs */
-.tab-header {
+.tabHeaderContainer {
     text-align: center;
+    background-color: #001f3f;
 }
 
-.tab-header h2.active {
+.tabHeaderContainer h2.active {
     color: #fff;
-    border-bottom: 4px solid #fff;
+    border-bottom: 2px solid #fff;
 }
 
-.tab-header h2 {
+.tabHeaderContainer h2 {
     text-align: center;
     font-size: 18px;
     font-weight: 600;
     display: inline-block;
-    padding: 30px 40px 10px 40px;
+    padding: 30px 60px 10px 60px;
     cursor: pointer;
     color: #545d6a;
     border-bottom: 2px solid #545d6a;
 }
 
-.tab-header h2:focus {
+.tabHeaderContainer h2:focus {
     outline: none;
 }
 
@@ -150,41 +128,6 @@ div.form-group label:first-child {
     padding: 0px;
 }
 
-.confirmDialogContainer .content-container {
-    margin: 5px 5px 15px 5px;
-    color: #8f9cb5;
-}
-.confirmDialogContainer #close-icon {
-    margin-left: auto;
-    order: 2;
-    font-weight: bolder;
-}
-.confirmDialogContainer #close-icon:hover {
-    cursor: pointer;
-}
-
-.confirmDialogContainer #no-button {
-    height: 50px;
-    width: 50%;
-    background-color: green;
-    color:white;
-    border-radius: 0px;
-}
-
-.confirmDialogContainer #yes-button {
-    height: 50px;
-    width: 50%;
-    background-color: #ff2314;
-    color:white;
-    border-radius: 0px;
-}
-
-.confirmDialogContainer div.message {
-    padding: 25px 16px;
-    text-align: center;
-    font-size: 20px;
-}
-
 /* Form styles. */
 .formControlsContainer {
     padding: 15px !important;
@@ -194,6 +137,7 @@ div.form-group label:first-child {
 .datePickerContainer {
     width: 49% !important;
     float: left !important;
+    padding-top: 1px;
 }
 
 .timePickerContainer {
@@ -233,16 +177,17 @@ mat-form-field.mat-form-field-should-float mat-label {
     font-size: 16px !important;
 }
 
-mat-datepicker-toggle {
+mat-datepicker-toggle * {
     color: #6a6c6e !important;
+    font-size: 14px !important;
+}
+
+.mat-datepicker-toggle-default-icon {
+    margin-bottom: 10px !important;
 }
 
 .mat-select-arrow {
     color: #6a6c6e !important;
-}
-
-.mat-datepicker-toggle-default-icon {
-    height: 30px !important;
 }
 
 .submitButton {
@@ -462,6 +407,11 @@ input.mat-input-element:-webkit-autofill:active  {
 {
     .hideOnSmallScreenSize {
         display: none !important;
+    }
+
+    .tabHeaderContainer h2 {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
 

@@ -19,7 +19,7 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" routerLink="/matches/all" routerLinkActive="active"><i class="fas fa-list-ul fa-fw"></i>&nbsp;All matches</a>
-                        <a class="dropdown-item showOnlyOnMobile" routerLink="/" routerLinkActive="active"><i class="fas fa-futbol fa-fw"></i>&nbsp;Football</a>
+                        <a class="dropdown-item showOnlyOnMobile" routerLink="/matches/football" routerLinkActive="active"><i class="fas fa-futbol fa-fw"></i>&nbsp;Football</a>
                         <a class="dropdown-item showOnlyOnMobile" routerLink="/matches/basketball" routerLinkActive="active"><i class="fas fa-basketball-ball fa-fw"></i>&nbsp;Basketball</a>
                         <a class="dropdown-item showOnlyOnMobile" routerLink="/matches/icehockey" routerLinkActive="active"><i class="fas fa-hockey-puck fa-fw"></i>&nbsp;Ice hockey</a>
                         <a class="dropdown-item" routerLink="/new-match" routerLinkActive="active" *ngIf="service.isAdmin()"><i class="fas fa-plus fa-fw"></i>&nbsp;Add match</a>
@@ -70,6 +70,7 @@
         </div>
     </div>
 </nav>
+
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark secondNavbar">
     <div class="container">
         <!-- Toggler/collapsibe Button -->

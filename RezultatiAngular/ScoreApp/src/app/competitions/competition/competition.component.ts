@@ -9,8 +9,7 @@ import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-competition',
-  templateUrl: './competition.component.html',
-  styleUrls: ['./competition.component.css']
+  templateUrl: './competition.component.html'
 })
 export class CompetitionComponent implements OnInit {
 

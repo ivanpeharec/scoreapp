@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RezultatiAngular.Models
+﻿namespace RezultatiAngular.Models
 {
     public class CompetitionTeam
     {

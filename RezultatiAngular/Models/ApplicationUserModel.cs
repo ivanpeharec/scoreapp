@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace RezultatiAngular.Models
+﻿namespace RezultatiAngular.Models
 {
     public class ApplicationUserModel
     {

@@ -30,7 +30,7 @@
     "compressible": "^2.0.18",
     "i": "^0.3.6",
     "jquery": "^3.5.1",
-    "moment": "^2.25.3",
+    "moment": "^2.29.4",
     "ngx-material-timepicker": "^4.0.2",
     "ngx-tempusdominus-bootstrap": "^1.0.1",
     "ngx-toastr": "^12.0.1",

@@ -34,7 +34,7 @@
     "ngx-material-timepicker": "^4.0.2",
     "ngx-tempusdominus-bootstrap": "^1.0.1",
     "ngx-toastr": "^12.0.1",
-    "npm": "^6.14.5",
+    "npm": "^9.4.1",
     "popper.js": "^1.16.1",
     "rxjs": "^6.5.5",
     "tempusdominus-bootstrap-4": "^5.1.2",
